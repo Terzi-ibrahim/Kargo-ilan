@@ -10,14 +10,14 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Proje CSS'leri -->
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Kargo_İlan.styles.css" asp-append-version="true" />
+   
     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true">
-
     @await RenderSectionAsync("Styles", required: false)
+
 </head>
 <body>
     <header>
+        <!-- Navbar -->
         <nav class="navbar navbar-expand-lg navbar-dark">
             <div class="container">
                 <a class="navbar-brand" href="#">
@@ -44,17 +44,12 @@
                 </div>
             </div>
         </nav>
-    </header>
-    
-    
-    
-
-    <div class="container">
-        <main role="main" class="pb-3">
+    </header>      
+      
+        <main role="main" >
             @RenderBody()
         </main>
-    </div>
- 
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -93,107 +88,7 @@
             </div>
         </div>
     </footer>
-    <!-- Modals -->
-    <!-- İlan Verme Modal -->
-    <div class="modal fade" id="ilanVermeModal" tabindex="-1">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header border-0">
-                    <h5 class="modal-title">
-                        <i class="fas fa-bullhorn me-2 text-primary"></i>
-                        Kolay İlan Verme
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row align-items-center">
-                        <div class="col-md-6">
-                            <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="İlan Verme" class="img-fluid rounded-3 mb-3 mb-md-0">
-                        </div>
-                        <div class="col-md-6">
-                            <h4 class="mb-4">İlan Verme Avantajları</h4>
-                            <ul class="feature-list">
-                                <li><i class="fas fa-check text-success me-2"></i>Hızlı ve kolay ilan oluşturma</li>
-                                <li><i class="fas fa-check text-success me-2"></i>Detaylı ilan seçenekleri</li>
-                                <li><i class="fas fa-check text-success me-2"></i>Geniş taşıyıcı ağına erişim</li>
-                                <li><i class="fas fa-check text-success me-2"></i>İlan yönetim paneli</li>
-                                <li><i class="fas fa-check text-success me-2"></i>İlan istatistikleri</li>
-                            </ul>
-                            <p class="mt-4">Platformumuzda dakikalar içinde kargo ilanınızı oluşturabilir ve binlerce taşıyıcıya ulaşabilirsiniz.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Güvenli İletişim Modal -->
-    <div class="modal fade" id="iletisimModal" tabindex="-1">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header border-0">
-                    <h5 class="modal-title">
-                        <i class="fas fa-handshake me-2 text-primary"></i>
-                        Güvenli İletişim
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row align-items-center">
-                        <div class="col-md-6">
-                            <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Güvenli İletişim" class="img-fluid rounded-3 mb-3 mb-md-0">
-                        </div>
-                        <div class="col-md-6">
-                            <h4 class="mb-4">İletişim Özellikleri</h4>
-                            <ul class="feature-list">
-                                <li><i class="fas fa-check text-success me-2"></i>Platform içi mesajlaşma</li>
-                                <li><i class="fas fa-check text-success me-2"></i>İletişim geçmişi</li>
-                                <li><i class="fas fa-check text-success me-2"></i>Bildirim sistemi</li>
-                                <li><i class="fas fa-check text-success me-2"></i>Spam koruması</li>
-                                <li><i class="fas fa-check text-success me-2"></i>Kişisel veri güvenliği</li>
-                            </ul>
-                            <p class="mt-4">İlan sahipleri ve taşıyıcılar arasında güvenli ve kesintisiz iletişim sağlıyoruz.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Değerlendirme Modal -->
-    <div class="modal fade" id="degerlendirmeModal" tabindex="-1">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header border-0">
-                    <h5 class="modal-title">
-                        <i class="fas fa-star me-2 text-primary"></i>
-                        Değerlendirme Sistemi
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row align-items-center">
-                        <div class="col-md-6">
-                            <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Değerlendirme" class="img-fluid rounded-3 mb-3 mb-md-0">
-                        </div>
-                        <div class="col-md-6">
-                            <h4 class="mb-4">Değerlendirme Özellikleri</h4>
-                            <ul class="feature-list">
-                                <li><i class="fas fa-check text-success me-2"></i>Kullanıcı puanlaması</li>
-                                <li><i class="fas fa-check text-success me-2"></i>Detaylı yorumlar</li>
-                                <li><i class="fas fa-check text-success me-2"></i>Referans sistemi</li>
-                                <li><i class="fas fa-check text-success me-2"></i>Doğrulanmış profiller</li>
-                                <li><i class="fas fa-check text-success me-2"></i>Şeffaf geri bildirim</li>
-                            </ul>
-                            <p class="mt-4">Kullanıcı değerlendirmeleri ile güvenilir ve şeffaf bir platform oluşturuyoruz.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
