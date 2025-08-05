@@ -10,8 +10,8 @@ Kargo göndermek isteyen kullanıcıların ilan oluşturabildiği, şirketlerin 
 - 📌 Kargo ilanı oluşturma ve listeleme
 - 💼 Şirketlerin teklif gönderme sistemi
 - ♻️ Aktif teklif yönetimi ve güncellenebilir teklif süreci
-- 📍 İstanbul – İzmit arası oto teklif & bildirim altyapısı
-- 🔔 Gerçek zamanlı bildirimler (SignalR ile)
+- 📍 Varış – Alış İl arası oto teklif & bildirim altyapısı
+- 🔔 Gerçek zamanlı bildirimler 
 - 📄 İlan detay sayfası, teklif sayfası ve kullanıcıya özel paneller
 
 ---
