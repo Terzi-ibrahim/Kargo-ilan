@@ -24,7 +24,6 @@ Kargo göndermek isteyen kullanıcıların ilan oluşturabildiği, şirketlerin 
 | **C#**            | Backend dili                       |
 | **Entity Framework** | ORM yapısı (Code/DB First destekli) |
 | **SQL Server**    | Veritabanı yönetimi                |
-| **SignalR**       | Canlı bildirim altyapısı           |
 | **Bootstrap**     | Arayüz tasarımı                    |
 
 ---
