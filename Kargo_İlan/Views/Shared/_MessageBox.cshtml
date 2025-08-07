@@ -1,0 +1,103 @@
+﻿@{
+    var success = TempData["SuccessMessage"] as string;
+    var error = TempData["ErrorMessage"] as string;
+    var hasMessage = !string.IsNullOrEmpty(success) || !string.IsNullOrEmpty(error);
+}
+
+@if (hasMessage)
+{
+    <div aria-live="polite" aria-atomic="true"
+         class="position-fixed top-0 end-0 p-3"
+         style="z-index: 1080; min-width: 320px;">
+        <div id="liveToast" class="toast align-items-center text-white border-0 shadow toast-slide-in"
+             role="alert" aria-live="assertive" aria-atomic="true"
+             style="background-color: @(success != null ? "#198754" : "#dc3545");">
+            <div class="d-flex">
+                <div class="toast-body d-flex align-items-center">
+                    <i class="bi @(success != null ? "bi-check-circle-fill" : "bi-exclamation-triangle-fill") me-2 fs-4"></i>
+                    <div>@(success ?? error)</div>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" aria-label="Kapat"></button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Açılırken yukarıdan yumuşak fade-in */
+        @@keyframes slideInFade {
+            0%
+
+        {
+            transform: translateY(-20px);
+            opacity: 0;
+        }
+
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        }
+
+        /* Kapanırken yumuşak fade-out */
+        @@keyframes fadeOut {
+            from
+
+        {
+            opacity: 1;
+        }
+
+        to {
+            opacity: 0;
+        }
+
+        }
+
+        .toast-slide-in {
+            animation: slideInFade 0.4s ease forwards;
+        }
+
+        .toast-fade-out {
+            animation: fadeOut 0.4s ease forwards;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var toastEl = document.getElementById('liveToast');
+            if (!toastEl) return;
+
+            // Navbar yüksekliğini al ve toast'un üst boşluğunu ayarla
+            var navbar = document.querySelector('.navbar');
+            if (navbar) {
+                var navHeight = navbar.offsetHeight;
+                toastEl.style.top = (navHeight + 10) + 'px'; // navbar altına 10px boşluk
+                toastEl.style.position = 'fixed';
+                toastEl.style.right = '20px';
+                toastEl.style.zIndex = '1050';
+                toastEl.style.minWidth = '300px';
+            }
+
+            var toast = new bootstrap.Toast(toastEl, { delay: 4000 });
+
+            // Kapatma butonuna animasyon ekle
+            toastEl.querySelector('.btn-close').addEventListener('click', function () {
+                toastEl.classList.add('toast-fade-out');
+                setTimeout(() => toast.hide(), 400);
+            });
+
+            // 4 saniye sonra fadeOut ve gizle
+            toastEl.addEventListener('hidden.bs.toast', () => {
+                toastEl.remove();
+            });
+
+            toast.show();
+
+            setTimeout(() => {
+                toastEl.classList.add('toast-fade-out');
+                setTimeout(() => toast.hide(), 400);
+            }, 4000);
+        });
+    </script>
+
+}

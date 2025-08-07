@@ -1,231 +1,100 @@
-﻿    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 mx-auto text-center">
-                    <h1 class="display-4 mb-4">Kargo İlanlarınızı Yayınlayın</h1>
-                    <p class="lead mb-4">Türkiye'nin en büyük kargo ilanları platformunda yerinizi alın</p>
-                    <div class="search-container">
-                        <div class="search-box">
-                            <div class="search-inputs">
-                                <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="fas fa-location-dot"></i>
-                                    </span>
-                                    <input type="text" class="form-control" placeholder="Yükleme noktası seçin..." list="cities-from">
-                                    <datalist id="cities-from">
-                                        <option value="İstanbul"> </option>
-                                        <option value="Ankara"></option>
-                                        <option value="İzmir"></option>
-                                        <option value="Bursa"></option>
-                                        <option value="Antalya"></option>
-                                    </datalist>
-                                </div>
-                                
-                                <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="fas fa-location-crosshairs"></i>
-                                    </span>
-                                    <input type="text" class="form-control" placeholder="Varış noktası seçin..." list="cities-to">
-                                    <datalist id="cities-to">
-                                        <option value="İstanbul"></option>
-                                        <option value="Ankara"></option>
-                                        <option value="İzmir"></option>
-                                        <option value="Bursa"></option>
-                                        <option value="Antalya"></option>
-                                    </datalist>
-                                </div>
-                            </div>
-                            
-                            <button class="btn btn-primary search-btn">
-                                <i class="fas fa-magnifying-glass"></i>İlanları Bul
-                            </button>
+﻿@model List<Kargo_İlan.DTOs.Freight.FreightIndexDto>
+<section class="hero-section py-5 bg-light" style="min-height: 50vh;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 mb-4">Kargo İlanlarınızı Yayınlayın</h1>
+                <p class="lead mb-4">Türkiye'nin en büyük kargo ilanları platformunda yerinizi alın</p>       
 
-                            <!-- Popular Searches -->
-                            <div class="popular-searches mt-4">
-                                <span class="text-light opacity-75 me-2">Popüler Aramalar:</span>
-                                <a href="#" class="badge bg-light text-dark text-decoration-none me-2 mb-2">
-                                    <i class="fas fa-route me-1"></i>İstanbul → Ankara
-                                </a>
-                                <a href="#" class="badge bg-light text-dark text-decoration-none me-2 mb-2">
-                                    <i class="fas fa-route me-1"></i>İzmir → İstanbul
-                                </a>
-                                <a href="#" class="badge bg-light text-dark text-decoration-none me-2 mb-2">
-                                    <i class="fas fa-route me-1"></i>Antalya → İzmir
-                                </a>
-                                <a href="#" class="badge bg-light text-dark text-decoration-none me-2 mb-2">
-                                    <i class="fas fa-route me-1"></i>Bursa → Ankara
-                                </a>
-                            </div>
-                        </div>
+                <form method="get" action="/Freight/Index" class="modern-search-box mt-4">
+                    <div class="input-wrapper">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" name="searchText" placeholder="İlan numarası veya başlık ara..." class="modern-input" />
                     </div>
-                </div>
+
+                    <select name="categoryId" class="modern-select">
+                        <option value="">Tüm Kategoriler</option>
+                        @foreach (var category in ViewBag.Categories as List<CategoryType>)
+                        {
+                            <option value="@category.Category_id">@category.CategoryName</option>
+                        }
+                    </select>
+
+                    <button type="submit" class="modern-search-btn">
+                        <i class="fas fa-search me-2"></i> Ara
+                    </button>
+                </form>
             </div>
         </div>
-    </section>
-
-    <!-- Güncel İlanlar Section -->
-    <section class="current-listings py-5">
-        <div class="container">
-            <div class="section-header text-center mb-5">
-                <h2>Güncel İlanlar</h2>
-                <p class="text-muted">En son eklenen kargo ilanları</p>
-            </div>
-            <div class="row g-4">
-                <!-- İlan 1 -->
-                <div class="col-md-4">
-                    <div class="listing-card">
-                        <div class="listing-image">
-                            <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Kargo">
-                            <span class="listing-badge">Acil</span>
-                        </div>
-                        <div class="listing-content">
-                            <div class="listing-route">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>İstanbul → Ankara</span>
-                            </div>
-                            <h3 class="listing-title">Acil Kargo İlanı</h3>
-                            <div class="listing-details">
-                                <span><i class="fas fa-box"></i> 2 Paket</span>
-                                <span><i class="fas fa-weight-hanging"></i> 50kg</span>
-                                <span><i class="fas fa-history"></i> 1 saat önce </span>
-                            </div>
-                            <div class="listing-footer">
-                                <span class="listing-price">₺200</span>
-                                <a href="#" class="btn btn-outline-primary">Detaylar</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- İlan 2 -->
-                <div class="col-md-4">
-                    <div class="listing-card">
-                        <div class="listing-image">
-                            <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Kargo">
-                            <span class="listing-badge">Günlük</span>
-                        </div>
-                        <div class="listing-content">
-                            <div class="listing-route">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>İzmir → Antalya</span>
-                            </div>
-                            <h3 class="listing-title">Günlük Kargo İlanı</h3>
-                            <div class="listing-details">
-                                <span><i class="fas fa-box"></i> 5 Paket</span>
-                                <span><i class="fas fa-weight-hanging"></i> 100kg</span>
-                                <span><i class="fas fa-history"></i> 12 saat önce </span>
-                            </div>
-                            <div class="listing-footer">
-                                <span class="listing-price">₺350</span>
-                                <a href="#" class="btn btn-outline-primary">Detaylar</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- İlan 3 -->
-                <div class="col-md-4">
-                    <div class="listing-card">
-                        <div class="listing-image">
-                            <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Kargo">
-                            <span class="listing-badge">Ağır Yük</span>
-                        </div>
-                        <div class="listing-content">
-                            <div class="listing-route">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>Bursa → İstanbul</span>
-                            </div>
-                            <h3 class="listing-title">Ağır Yük Taşıma</h3>
-                            <div class="listing-details">
-                                <span><i class="fas fa-box"></i> 1 Paket</span>
-                                <span><i class="fas fa-weight-hanging"></i> 500kg</span>
-                                <span><i class="fas fa-history"></i> 9 saat önce </span>
-                            </div>
-                            <div class="listing-footer">
-                                <span class="listing-price">₺800</span>
-                                <a href="#" class="btn btn-outline-primary">Detaylar</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- İlan 4 -->
-                <div class="col-md-4">
-                    <div class="listing-card">
-                        <div class="listing-image">
-                            <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Kargo">
-                            <span class="listing-badge">Express</span>
-                        </div>
-                        <div class="listing-content">
-                            <div class="listing-route">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>Ankara → İstanbul</span>
-                            </div>
-                            <h3 class="listing-title">Express Kargo İlanı</h3>
-                            <div class="listing-details">
-                                <span><i class="fas fa-box"></i> 3 Paket</span>
-                                <span><i class="fas fa-weight-hanging"></i> 30kg</span>
-                                <span><i class="fas fa-history"></i> 2 saat önce </span>
-                            </div>
-                            <div class="listing-footer">
-                                <span class="listing-price">₺250</span>
-                                <a href="#" class="btn btn-outline-primary">Detaylar</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- İlan 5 -->
-                <div class="col-md-4">
-                    <div class="listing-card">
-                        <div class="listing-image">
-                            <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Kargo">
-                            <span class="listing-badge">Şehir İçi</span>
-                        </div>
-                        <div class="listing-content">
-                            <div class="listing-route">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>İstanbul İçi</span>
-                            </div>
-                            <h3 class="listing-title">Şehir İçi Kargo</h3>
-                            <div class="listing-details">
-                                <span><i class="fas fa-box"></i> 1 Paket</span>
-                                <span><i class="fas fa-weight-hanging"></i> 15kg</span>
-                                <span><i class="fas fa-history"></i> 6 saat önce </span>
-                            </div>
-                            <div class="listing-footer">
-                                <span class="listing-price">₺100</span>
-                                <a href="#" class="btn btn-outline-primary">Detaylar</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- İlan 6 -->
-                <div class="col-md-4">
-                    <div class="listing-card">
-                        <div class="listing-image">
-                            <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Kargo">
-                            <span class="listing-badge">Özel</span>
-                        </div>
-                        <div class="listing-content">
-                            <div class="listing-route">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>Antalya → İzmir</span>
-                            </div>
-                            <h3 class="listing-title">Özel Kargo İlanı</h3>
-                            <div class="listing-details">
-                                <span><i class="fas fa-box"></i> 2 Paket</span>
-                                <span><i class="fas fa-weight-hanging"></i> 40kg</span>
-                                <span><i class="fas fa-history"></i> 7 saat önce </span>
-                            </div>
-                            <div class="listing-footer">
-                                <span class="listing-price">₺300</span>
-                                <a href="#" class="btn btn-outline-primary">Detaylar</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    </div>
+</section>
+<section class="bsb-blog-5 py-3 py-md-5 py-xl-8">
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+                <h2 class="display-5 mb-4 mb-md-5 text-center">
+            Güncel Yükler
+                </h2>
+                <hr class="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle">
             </div>
         </div>
-    </section>
+    </div>
 
+    <div class="container overflow-hidden">
+        <div class="row gy-4 gx-4">
+            @foreach (var item in Model)
+            {
+                <div class="col-12 col-md-6 col-lg-4">
+                    <article class="card border-0 bg-transparent shadow-sm h-100">
+                        <figure class="position-relative overflow-hidden mb-3">
+                            <a href="@Url.Action("Detail", "Freight", new { id = item.Freight_id, returnUrl = "Home" })" class="d-block">
+                                <img src="~/images/foto1.png" alt="@item.Title" loading="lazy" class="img-fluid rounded bsb-scale bsb-hover-scale-up" />
+                            </a>
+
+
+
+
+                            <figcaption class="position-absolute top-50 start-50 translate-middle d-flex align-items-center text-white bg-dark bg-opacity-50 rounded px-3 py-2 opacity-0 bsb-hover-fadeIn transition-opacity"
+                                        style="pointer-events:none;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-box-seam me-2" viewBox="0 0 16 16">
+                                    <path d="M6.5 0.134a1.5 1.5 0 0 1 1 0l6 2.25a.5.5 0 0 1 .325.474v10.284a.5.5 0 0 1-.325.474l-6 2.25a1.5 1.5 0 0 1-1 0l-6-2.25A.5.5 0 0 1 0 13.142V2.858a.5.5 0 0 1 .325-.474l6-2.25zM1 3.057v9.886l5.5 2.063V5.12L1 3.057zm6.5 2.063v9.886l5.5-2.063V3.057L7.5 5.12z" />
+                                </svg>
+                                <h5 class="mb-0 fw-semibold">Yük Detayı</h5>                              
+                            </figcaption>
+                        </figure>
+
+                        <div class="card-body px-2">
+                            <h4 class="card-title h5 mb-2 text-truncate">
+                                <a href="@Url.Action("Detail", "Freight", new { id = item.Freight_id, returnUrl = "Home" })" class="text-primary text-decoration-none">
+                                    @item.Title
+                                </a>
+                            </h4>
+
+
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="badge bg-secondary text-white small">@item.CategoryType.CategoryName</span>
+                            </div>
+
+                            <ul class="list-inline text-muted small mb-0">
+                                <li class="list-inline-item">@item.OlusturulmaTarihi.ToString("dd MMM yyyy")</li>
+                                <li class="list-inline-item">•</li>
+                                <li class="list-inline-item">@item.YuklemeIl.ProvinceName → @item.VarisIl.ProvinceName</li>
+                            </ul>
+                        </div>
+                    </article>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <a href="/Freight/Index" class="btn bsb-btn-2xl btn-primary rounded-pill mt-5 mt-xl-10">Diğer İlanlar</a>
+            </div>
+        </div>
+    </div>
+</section>
     <!-- Features Section -->
     <section class="features-section py-5">
         <div class="container">
@@ -252,209 +121,209 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="feature-card h-100 p-4">
-                        <div class="card-body text-center">
-                            <div class="feature-icon-wrapper mb-4">
-                                <div class="feature-icon-bg">
-                                    <i class="fas fa-handshake"></i>
-                                </div>
-                            </div>
-                            <h4 class="card-title mb-3">Güvenli İletişim</h4>
-                            <p class="card-text text-muted">İlan sahipleri ve taşıyıcılar arasında güvenli iletişim imkanı.</p>
-                            <div class="feature-hover-content">
-                                <button class="btn btn-outline-primary rounded-pill mt-3" data-bs-toggle="modal" data-bs-target="#iletisimModal">
-                                    Detaylı Bilgi <i class="fas fa-arrow-right ms-2"></i>
-                                </button>
+            <div class="col-md-4">
+                <div class="feature-card h-100 p-4">
+                    <div class="card-body text-center">
+                        <div class="feature-icon-wrapper mb-4">
+                            <div class="feature-icon-bg">
+                                <i class="fas fa-bell"></i>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="feature-card h-100 p-4">
-                        <div class="card-body text-center">
-                            <div class="feature-icon-wrapper mb-4">
-                                <div class="feature-icon-bg">
-                                    <i class="fas fa-star"></i>
-                                </div>
-                            </div>
-                            <h4 class="card-title mb-3">Değerlendirme Sistemi</h4>
-                            <p class="card-text text-muted">Kullanıcı yorumları ve puanlamaları ile güvenilir bir platform.</p>
-                            <div class="feature-hover-content">
-                                <button class="btn btn-outline-primary rounded-pill mt-3" data-bs-toggle="modal" data-bs-target="#degerlendirmeModal">
-                                    Detaylı Bilgi <i class="fas fa-arrow-right ms-2"></i>
-                                </button>
-                            </div>
+                        <h4 class="card-title mb-3">Anlık Bildirimler</h4>
+                        <p class="card-text text-muted">Yeni teklif, mesaj ya da durum değişikliklerinde anında bilgilendirme alın.</p>
+                        <div class="feature-hover-content">
+                            <button class="btn btn-outline-primary rounded-pill mt-3" data-bs-toggle="modal" data-bs-target="#bildirimModal">
+                                Detaylı Bilgi <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Stats Section -->
-    <section class="stats-section">
-        <div class="container">
-            <div class="row g-4">
-                <div class="col-md-3 col-sm-6">
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-box"></i>
+            <!-- Teklif Verme Sistemi -->
+            <div class="col-md-4">
+                <div class="feature-card h-100 p-4">
+                    <div class="card-body text-center">
+                        <div class="feature-icon-wrapper mb-4">
+                            <div class="feature-icon-bg">
+                                <i class="fas fa-gavel"></i>
+                            </div>
                         </div>
-                        <div class="stat-content">
-                            <h3 class="stat-number" data-target="5000">5000+</h3>
-                            <p class="stat-label">Aktif İlan</p>
-                        </div>
-                        <div class="stat-progress">
-                            <div class="progress-ring"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div class="stat-content">
-                            <h3 class="stat-number" data-target="1000">1000+</h3>
-                            <p class="stat-label">Kayıtlı Üye</p>
-                        </div>
-                        <div class="stat-progress">
-                            <div class="progress-ring"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-truck-loading"></i>
-                        </div>
-                        <div class="stat-content">
-                            <h3 class="stat-number" data-target="10000">10K+</h3>
-                            <p class="stat-label">Başarılı Teslimat</p>
-                        </div>
-                        <div class="stat-progress">
-                            <div class="progress-ring"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="stat-content">
-                            <h3 class="stat-number" data-target="4.8">4.8</h3>
-                            <p class="stat-label">Müşteri Memnuniyeti</p>
-                        </div>
-                        <div class="stat-progress">
-                            <div class="progress-ring"></div>
+                        <h4 class="card-title mb-3">Teklif Verme Sistemi</h4>
+                        <p class="card-text text-muted">Lojistik firmaları ilanlara teklif vererek rekabetçi fiyatlarla hizmet sunar.</p>
+                        <div class="feature-hover-content">
+                            <button class="btn btn-outline-primary rounded-pill mt-3" data-bs-toggle="modal" data-bs-target="#teklifModal">
+                                Detaylı Bilgi <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
-    </section>
-
-    
-
-    <!-- Modals -->
-    <!-- İlan Verme Modal -->
-    <div class="modal fade" id="ilanVermeModal" tabindex="-1">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header border-0">
-                    <h5 class="modal-title">
-                        <i class="fas fa-bullhorn me-2 text-primary"></i>
-                        Kolay İlan Verme
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    </section> 
+<!-- Stats Section -->
+<section class="stats-section">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-box"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number" data-target="5000">0</h3>
+                        <p class="stat-label">Aktif İlan</p>
+                    </div>
+                    <div class="stat-progress">
+                        <div class="progress-ring"></div>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <div class="row align-items-center">
-                        <div class="col-md-6">
-                            <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="İlan Verme" class="img-fluid rounded-3 mb-3 mb-md-0">
-                        </div>
-                        <div class="col-md-6">
-                            <h4 class="mb-4">İlan Verme Avantajları</h4>
-                            <ul class="feature-list">
-                                <li><i class="fas fa-check text-success me-2"></i>Hızlı ve kolay ilan oluşturma</li>
-                                <li><i class="fas fa-check text-success me-2"></i>Detaylı ilan seçenekleri</li>
-                                <li><i class="fas fa-check text-success me-2"></i>Geniş taşıyıcı ağına erişim</li>
-                                <li><i class="fas fa-check text-success me-2"></i>İlan yönetim paneli</li>
-                                <li><i class="fas fa-check text-success me-2"></i>İlan istatistikleri</li>
-                            </ul>
-                            <p class="mt-4">Platformumuzda dakikalar içinde kargo ilanınızı oluşturabilir ve binlerce taşıyıcıya ulaşabilirsiniz.</p>
-                        </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number" data-target="1000">0</h3>
+                        <p class="stat-label">Kayıtlı Üye</p>
+                    </div>
+                    <div class="stat-progress">
+                        <div class="progress-ring"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-file-signature"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number" data-target="25000">0</h3>
+                        <p class="stat-label">Verilen Toplam Teklif</p>
+                    </div>
+                    <div class="stat-progress">
+                        <div class="progress-ring"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number" data-target="350">0</h3>
+                        <p class="stat-label">Toplam Taşıyıcı Firma</p>
+                    </div>
+                    <div class="stat-progress">
+                        <div class="progress-ring"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Güvenli İletişim Modal -->
-    <div class="modal fade" id="iletisimModal" tabindex="-1">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header border-0">
-                    <h5 class="modal-title">
-                        <i class="fas fa-handshake me-2 text-primary"></i>
-                        Güvenli İletişim
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row align-items-center">
-                        <div class="col-md-6">
-                            <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Güvenli İletişim" class="img-fluid rounded-3 mb-3 mb-md-0">
-                        </div>
-                        <div class="col-md-6">
-                            <h4 class="mb-4">İletişim Özellikleri</h4>
-                            <ul class="feature-list">
-                                <li><i class="fas fa-check text-success me-2"></i>Platform içi mesajlaşma</li>
-                                <li><i class="fas fa-check text-success me-2"></i>İletişim geçmişi</li>
-                                <li><i class="fas fa-check text-success me-2"></i>Bildirim sistemi</li>
-                                <li><i class="fas fa-check text-success me-2"></i>Spam koruması</li>
-                                <li><i class="fas fa-check text-success me-2"></i>Kişisel veri güvenliği</li>
-                            </ul>
-                            <p class="mt-4">İlan sahipleri ve taşıyıcılar arasında güvenli ve kesintisiz iletişim sağlıyoruz.</p>
-                        </div>
+</section>
+<!-- İlan Verme Modal -->
+<div class="modal fade" id="ilanVermeModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title">
+                    <i class="fas fa-bullhorn me-2 text-primary"></i>
+                    Kolay İlan Verme
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="İlan Verme" class="img-fluid rounded-3 mb-3 mb-md-0">
+                    </div>
+                    <div class="col-md-6">
+                        <h4 class="mb-4">İlan Verme Avantajları</h4>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check text-success me-2"></i>Hızlı ve kolay ilan oluşturma</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Detaylı ilan seçenekleri</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Geniş taşıyıcı ağına erişim</li>
+                            <li><i class="fas fa-check text-success me-2"></i>İlan yönetim paneli</li>
+                            <li><i class="fas fa-check text-success me-2"></i>İlan istatistikleri</li>
+                        </ul>
+                        <p class="mt-4">Platformumuzda dakikalar içinde kargo ilanınızı oluşturabilir ve binlerce taşıyıcıya ulaşabilirsiniz.</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Değerlendirme Modal -->
-    <div class="modal fade" id="degerlendirmeModal" tabindex="-1">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header border-0">
-                    <h5 class="modal-title">
-                        <i class="fas fa-star me-2 text-primary"></i>
-                        Değerlendirme Sistemi
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row align-items-center">
-                        <div class="col-md-6">
-                            <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Değerlendirme" class="img-fluid rounded-3 mb-3 mb-md-0">
-                        </div>
-                        <div class="col-md-6">
-                            <h4 class="mb-4">Değerlendirme Özellikleri</h4>
-                            <ul class="feature-list">
-                                <li><i class="fas fa-check text-success me-2"></i>Kullanıcı puanlaması</li>
-                                <li><i class="fas fa-check text-success me-2"></i>Detaylı yorumlar</li>
-                                <li><i class="fas fa-check text-success me-2"></i>Referans sistemi</li>
-                                <li><i class="fas fa-check text-success me-2"></i>Doğrulanmış profiller</li>
-                                <li><i class="fas fa-check text-success me-2"></i>Şeffaf geri bildirim</li>
-                            </ul>
-                            <p class="mt-4">Kullanıcı değerlendirmeleri ile güvenilir ve şeffaf bir platform oluşturuyoruz.</p>
-                        </div>
+</div>
+<!-- Anlık Bildirimler Modal -->
+<div class="modal fade" id="bildirimModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title">
+                    <i class="fas fa-bell me-2 text-primary"></i>
+                    Anlık Bildirimler
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Bildirimler" class="img-fluid rounded-3 mb-3 mb-md-0">
+                    </div>
+                    <div class="col-md-6">
+                        <h4 class="mb-4">Bildirim Özellikleri</h4>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check text-success me-2"></i>Yeni teklif bildirimleri</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Mesaj uyarıları</li>
+                            <li><i class="fas fa-check text-success me-2"></i>İlan durumu güncellemeleri</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Anlık sistem mesajları</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Mobil uyumlu bildirimler</li>
+                        </ul>
+                        <p class="mt-4">İlan ve teklif süreçlerinde her adımdan anlık haberdar olun.</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+<!-- Teklif Verme Modal -->
+<div class="modal fade" id="teklifModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title">
+                    <i class="fas fa-gavel me-2 text-primary"></i>
+                    Teklif Verme Sistemi
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Teklif Sistemi" class="img-fluid rounded-3 mb-3 mb-md-0">
+                    </div>
+                    <div class="col-md-6">
+                        <h4 class="mb-4">İhale ve Teklif Özellikleri</h4>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check text-success me-2"></i>Lojistik firmaları teklif verebilir</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Fiyat karşılaştırma imkânı</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Rekabetçi pazar ortamı</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Kazanan firma seçimi</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Geçmiş teklif arşivi</li>
+                        </ul>
+                        <p class="mt-4">İlan sahipleri gelen teklifleri inceleyerek en uygun hizmet sağlayıcıyı kolayca seçebilir.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <!-- Bootstrap Bundle (Popper dahil) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+    <script src="~/js/site.js" asp-append-version="true"></script>
+}

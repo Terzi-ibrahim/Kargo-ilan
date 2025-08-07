@@ -1,0 +1,312 @@
+﻿@model Kargo_İlan.DTOs.Account.ProfileViewModel
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+
+<section class="bg-light py-4 py-md-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold">
+                <i class="bi bi-person-badge-fill me-2 text-primary"></i> Profil
+            </h2>
+            <p class="text-secondary fs-5">
+                Profil sayfası, deneyiminizi ince ayarlayabileceğiniz dijital merkezinizdir. Buradan tüm bilgilerinize ulaşabilir ve güncelleyebilirsiniz.
+            </p>
+            <hr class="w-50 mx-auto border-primary">
+        </div>
+
+        <div class="row g-4">
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm border-0 rounded-4">
+                    <div class="card-header bg-primary text-white rounded-top-4">
+                        <i class="bi bi-person-fill me-2"></i> Hoşgeldiniz, @Model.Profile.UserName
+                    </div>
+                    <div class="card-body text-center">                      
+                        <h5 class="fw-semibold">
+                            <i class="bi bi-person-circle me-1"></i> @Model.Profile.Name @Model.Profile.Surname
+                        </h5>
+                        <p class="text-muted small">
+                            <i class="bi bi-card-text me-1"></i> @Model.Profile.UserName
+                        </p>
+                        <ul class="list-group list-group-flush text-start mb-4">
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="bi bi-truck me-2 text-primary"></i> Aktif ilanların</span>
+                                <span class="fw-semibold">@Model.Profile.ActiveFreight</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="bi bi-hand-thumbs-up-fill me-2 text-success"></i> Teklif verilen ilan</span>
+                                <span class="fw-semibold">@Model.Profile.OfferedFreight</span>
+                            </li>
+                        </ul>
+                        <a href="/Freight/MyFreight" class="btn btn-outline-primary w-100 rounded-pill shadow-sm">
+                            <i class="bi bi-card-list me-2"></i> İlanlarım
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm border-0 rounded-4 mt-4">
+                    <div class="card-header bg-primary text-white rounded-top-4">
+                        <i class="bi bi-info-circle-fill me-2"></i> İletişim Bilgilerim
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex align-items-start">
+                                <i class="bi bi-envelope-fill fs-4 text-primary me-3"></i>
+                                <div>
+                                    <div class="fw-semibold">Email</div>
+                                    <div class="text-muted">@Model.Profile.Email</div>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex align-items-start">
+                                <i class="bi bi-telephone-fill fs-4 text-primary me-3"></i>
+                                <div>
+                                    <div class="fw-semibold">Telefon</div>
+                                    <div class="text-muted">@Model.Profile.PhoneNumber</div>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex align-items-start">
+                                <i class="bi bi-geo-alt-fill fs-4 text-primary me-3"></i>
+                                <div>
+                                    <div class="fw-semibold">Adres</div>
+                                    <div class="text-muted">@Html.Raw(Model.Profile.Address?.Replace("\n", "<br>"))</div>
+                                </div>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main content -->
+            <div class="col-lg-8">
+                <div class="card shadow-sm border-0 rounded-4">
+                    <div class="card-body p-4">
+                        <ul class="nav nav-tabs mb-4" id="profileTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview-tab-pane" type="button" role="tab" aria-controls="overview-tab-pane" aria-selected="true">
+                                    <i class="bi bi-eye-fill me-1"></i> Görünüm
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">
+                                    <i class="bi bi-pencil-square me-1"></i> Profil Düzenle
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="password-tab" data-bs-toggle="tab" data-bs-target="#password-tab-pane" type="button" role="tab" aria-controls="password-tab-pane" aria-selected="false">
+                                    <i class="bi bi-lock-fill me-1"></i> Şifre Değiştir
+                                </button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content" id="profileTabContent">
+                            <!-- Overview Tab -->
+                            <div class="tab-pane fade show active" id="overview-tab-pane" role="tabpanel" aria-labelledby="overview-tab">
+                                <div class="row gy-3">
+                                    <div class="col-sm-6">
+                                        <div class="bg-light p-3 rounded shadow-sm">
+                                            <strong>Ad:</strong> @Model.Profile.Name
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="bg-light p-3 rounded shadow-sm">
+                                            <strong>Soyad:</strong> @Model.Profile.Surname
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="bg-light p-3 rounded shadow-sm">
+                                            <strong>Kullanıcı Adı:</strong> @Model.Profile.UserName
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="bg-light p-3 rounded shadow-sm">
+                                            <strong>Email:</strong> @Model.Profile.Email
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="bg-light p-3 rounded shadow-sm">
+                                            <strong>Telefon:</strong> @Model.Profile.PhoneNumber
+                                        </div>
+                                    </div>                                   
+                                    <div class="col-sm-12">
+                                        <div class="bg-light p-3 rounded shadow-sm">
+                                            <strong>Adres:</strong> @Html.Raw(Model.Profile.Address?.Replace("\n", "<br>"))
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab">
+                                <form asp-action="UpdateProfile" asp-controller="Account" method="post" class="row gy-3">
+
+                                    @Html.AntiForgeryToken()
+
+
+                                    <div asp-validation-summary="ModelOnly"
+                                         class="alert alert-danger alert-dismissible fade show rounded-3 shadow-sm"
+                                         role="alert"
+                                         style="font-size: 0.9rem;">
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Kapat"></button>
+                                    </div>
+
+
+
+
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <input asp-for="Profile.Name" class="form-control" id="name" placeholder="Ad" />
+                                            <label for="name">Ad</label>
+                                        </div>
+                                        <span asp-validation-for="Profile.Name" class="text-danger small ms-1"></span>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <input asp-for="Profile.Surname" class="form-control" id="surname" placeholder="Soyad" />
+                                            <label for="surname">Soyad</label>
+                                        </div>
+                                        <span asp-validation-for="Profile.Surname" class="text-danger small ms-1"></span>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <input asp-for="Profile.UserName" class="form-control" id="fullName" placeholder="Kullanıcı Adı" />
+                                            <label for="fullName">Kullanıcı Adı</label>
+                                        </div>
+                                        <span asp-validation-for="Profile.UserName" class="text-danger small ms-1"></span>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="form-floating mb-3">
+                                            <input asp-for="Profile.PhoneNumber" type="tel" class="form-control" placeholder="(5__) ___-____" id="PhoneNumber" />
+                                            <label asp-for="Profile.PhoneNumber">Telefon Numarası</label>
+                                            <span asp-validation-for="Profile.PhoneNumber" class="text-danger small ms-1"></span>
+                                        </div>
+                                    </div>
+
+                                 
+
+
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <input asp-for="Profile.Email" class="form-control" id="email" placeholder="Email" />
+                                            <label for="email">Email</label>
+                                        </div>
+                                        <span asp-validation-for="Profile.Email" class="text-danger small ms-1"></span>
+                                    </div>                                 
+                                   
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <textarea asp-for="Profile.Address" class="form-control" id="Address" placeholder="Adres" style="height: 100px;"></textarea>
+                                            <label for="Address">Adres</label>
+                                        </div>
+                                        <span asp-validation-for="Profile.Address" class="text-danger small ms-1"></span>
+                                    </div>
+
+
+                                    <div class="col-12">
+                                        <div class="d-grid">
+                                            <button type="submit" class="btn btn-primary">Kaydet</button>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+
+
+                              <div class="tab-pane fade" id="password-tab-pane" role="tabpanel" aria-labelledby="password-tab">
+
+                                <form asp-action="UserChangePassword" method="post" class="row gy-3 gy-xxl-4">
+
+                                    @Html.AntiForgeryToken()
+
+
+                                    <div asp-validation-summary="ModelOnly"
+                                         class="alert alert-danger alert-dismissible fade show rounded-3 shadow-sm"
+                                         role="alert"
+                                         style="font-size: 0.9rem;">
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Kapat"></button>
+                                    </div>
+
+
+                                    <!-- Mevcut Şifre -->
+                                    <div class="col-12">
+                                        <div class="form-floating mb-3 position-relative">
+                                            <input asp-for="UserChangePassword.CurrentPassword" class="form-control" id="CurrentPassword" placeholder="Mevcut Şifreniz" type="password" />
+                                            <label for="CurrentPassword">Mevcut Şifreniz</label>
+                                            <i class="bi bi-eye-slash-fill toggle-password"
+                                               data-target="CurrentPassword"
+                                               style="position: absolute; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer;"></i>
+                                        </div>
+                                        <span asp-validation-for="UserChangePassword.CurrentPassword" class="text-danger small mt-2"></span>
+                                    </div>
+
+                                    <!-- Yeni Şifre -->
+                                    <div class="col-12">
+                                        <div class="form-floating mb-3 position-relative">
+                                            <input asp-for="UserChangePassword.Password" class="form-control" id="Password" placeholder="Yeni Şifreniz" type="password" />
+                                            <label for="Password">Yeni Şifreniz</label>
+                                            <i class="bi bi-eye-slash-fill toggle-password"
+                                               data-target="Password"
+                                               style="position: absolute; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer;"></i>
+                                        </div>
+                                        <span asp-validation-for="UserChangePassword.Password" class="text-danger small mt-2"></span>
+                                    </div>
+
+                                    <!-- Şifre Tekrar -->
+                                    <div class="col-12">
+                                        <div class="form-floating mb-3 position-relative">
+                                            <input asp-for="UserChangePassword.ConfirmPassword" class="form-control" id="ConfirmPassword" placeholder="Yeni Şifre Tekrar" type="password" />
+                                            <label for="ConfirmPassword">Yeni Şifre Tekrar</label>
+                                            <i class="bi bi-eye-slash-fill toggle-password"
+                                               data-target="ConfirmPassword"
+                                               style="position: absolute; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer;"></i>
+                                        </div>
+                                        <span asp-validation-for="UserChangePassword.ConfirmPassword" class="text-danger small mt-2"></span>
+                                    </div>
+
+                                    <div class="col-12 d-flex justify-content-end">
+                                        <button type="submit" class="btn btn-primary w-100 w-sm-auto">Şifreyi Değiştir</button>
+                                    </div>
+                                </form>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+         
+            document.querySelectorAll(".toggle-password").forEach(function (icon) {
+                icon.addEventListener("click", function () {
+           
+                    const inputId = this.getAttribute("data-target");
+                    const input = document.getElementById(inputId);
+                    if (!input) return;
+
+                
+                    const isPassword = input.type === "password";
+
+               
+                    input.type = isPassword ? "text" : "password";
+
+               
+                    this.classList.toggle("bi-eye-fill", isPassword);
+                    this.classList.toggle("bi-eye-slash-fill", !isPassword);
+                });
+            });
+        });
+    </script>
+}

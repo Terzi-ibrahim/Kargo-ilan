@@ -1,0 +1,142 @@
+﻿    @model Kargo_İlan.DTOs.Freight.FreightIndexDto
+
+    @{
+        ViewData["Title"] = "İlan Detayı";
+    }
+
+    <div class="container py-5">
+
+            <!-- Geri Dön Butonu -->
+            <div class="mb-4">    
+                <a href="@ViewBag.ReturnUrl" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Geri Dön
+                    </a>
+            </div>
+
+        <!-- İlan Detayı ve Sahibi Bilgisi -->
+        <div class="row">
+            <!-- Sol: İlan Detayı -->
+            <div class="col-lg-8">
+
+                <!-- İlan Başlığı -->
+                <div class="card mb-4 shadow-sm rounded-4">
+                    <div class="card-body text-center p-4">
+                        <h1 class="h3 mb-2 text-break fw-bold">@Model.Title</h1>
+                        <div class="text-muted small">
+                            <span class="me-3"><i class="bi bi-hashtag me-1"></i>İlan No: @Model.Freight_id</span>
+                            <span><i class="bi bi-calendar me-1"></i>Oluşturulma: @Model.OlusturulmaTarihi.ToString("dd.MM.yyyy HH:mm")</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rota Bilgileri -->
+                <div class="card mb-4 shadow-sm rounded-4">
+                    <div class="card-header bg-light border-bottom">
+                        <h2 class="h6 mb-0"><i class="bi bi-geo-alt me-2 text-primary"></i>Rota Bilgileri</h2>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-arrow-right-short fs-4 me-2 text-success"></i>
+                                    <div>
+                                        <div class="text-muted small">Yükleme Adresi</div>
+                                        <div class="fw-semibold">@Model.YuklemeIl.ProvinceName / @Model.Yuklemeilce.DistrictName</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-arrow-left-short fs-4 me-2 text-danger"></i>
+                                    <div>
+                                        <div class="text-muted small">Varış Adresi</div>
+                                        <div class="fw-semibold">@Model.VarisIl.ProvinceName / @Model.Varisilce.DistrictName</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detaylı Bilgiler -->
+                <div class="card mb-4 shadow-sm rounded-4">
+                    <div class="card-header bg-light border-bottom">
+                        <h2 class="h6 mb-0"><i class="bi bi-info-circle me-2 text-primary"></i>Detaylı Bilgiler</h2>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-truck me-2 text-primary"></i>
+                                    <div>
+                                        <div class="text-muted small">Araç Türü</div>
+                                        <div class="fw-semibold">@Model.VehicleType.VehicleName</div>
+                                    </div>
+                                </div>
+                            </div>
+                        @{
+                            var unitMap = (Dictionary<int, string>)ViewBag.CargoUnitMap;
+                            var unit = unitMap.ContainsKey(Model.CargoType.CargoType_id) ? unitMap[Model.CargoType.CargoType_id] : "";
+                        }
+
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-box me-2 text-primary"></i>
+                                <div>
+                                    <div class="text-muted small">Miktar</div>
+                                    <div class="fw-semibold">@Model.Miktar @unit</div>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-tag me-2 text-primary"></i>
+                                    <div>
+                                        <div class="text-muted small">Kategori</div>
+                                        <div class="fw-semibold">@Model.CategoryType.CategoryName</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-box-seam me-2 text-primary"></i>
+                                    <div>
+                                        <div class="text-muted small">Kargo Türü</div>
+                                        <div class="fw-semibold">@Model.CargoType.CargoName</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(Model.descreption))
+                        {
+                            <div>
+                                <h3 class="h6 mb-2"><i class="bi bi-card-text me-2 text-primary"></i>Açıklama</h3>
+                                <div class="text-muted" style="white-space: pre-wrap;">@Model.descreption</div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sağ: İlan Sahibi Kartı -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm border-0 rounded-4 mb-4">
+                    <div class="card-header bg-primary text-white rounded-top-4">
+                        <i class="bi bi-person-badge-fill me-2"></i> İlan Sahibi
+                    </div>
+                    <div class="card-body text-center">
+                        <i class="bi bi-person-circle fs-1 text-secondary mb-3"></i>
+
+                        <h5 class="fw-semibold mb-2">@Model.OwnerFullName</h5>
+
+                        @if (!string.IsNullOrEmpty(Model.CompanyName))
+                        {
+                            <p class="text-muted mb-0">@Model.CompanyName</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,86 @@
+﻿@model Kargo_İlan.DTOs.Offer.UpdateView
+@using System.Security.Claims
+
+@{
+    ViewData["Title"] = "Teklif Güncelle";
+    int currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+    bool isOfferOwner = Model.User_id == currentUserId;
+}
+
+<div class="container py-4">
+    @if (!isOfferOwner)
+    {
+        <div class="alert alert-danger">Bu teklifi güncelleme yetkiniz yok.</div>
+    }
+    else
+    {
+        <div class="row">
+            <!-- Read-only bilgiler -->
+            <div class="col-lg-4 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="card-title mb-0"><i class="bi bi-info-circle me-2 text-primary"></i>İlan Bilgileri</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3"><label class="text-muted small">İlan Başlığı</label><p class="fw-medium mb-0">@Model.FreightTitle</p></div>
+                        <div class="mb-3"><label class="text-muted small">Yükleme Yeri</label><p class="fw-medium mb-0">@Model.AlisYuk</p></div>
+                        <div class="mb-3"><label class="text-muted small">Varış Yeri</label><p class="fw-medium mb-0">@Model.VarisYuk</p></div>
+                        <div class="mb-3"><label class="text-muted small">Kargo Türü</label><p class="fw-medium mb-0">@Model.CargoTur</p></div>
+                        <div class="mb-3"><label class="text-muted small">Miktar</label><p class="fw-medium mb-0">@Model.Miktari</p></div>
+                        <div class="mb-3"><label class="text-muted small">Oluşturulma Tarihi</label><p class="fw-medium mb-0">@Model.CreateAt.ToString("g")</p></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Update Form -->
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="card-title mb-0"><i class="bi bi-currency-dollar me-2 text-primary"></i>Teklif Bilgileri</h5>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="Update" asp-route-id="@Model.OfferId" method="post">
+                            @Html.AntiForgeryToken()
+                            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                            <!-- Hidden OfferId ve User_id -->
+                            <input type="hidden" asp-for="OfferId" />
+                            <input type="hidden" asp-for="User_id" />
+
+                            <!-- Read-only alanları da hidden olarak gönderiyoruz -->
+                            <input type="hidden" asp-for="Freight_id" />
+                            <input type="hidden" asp-for="FreightTitle" />
+                            <input type="hidden" asp-for="AlisYuk" />
+                            <input type="hidden" asp-for="VarisYuk" />
+                            <input type="hidden" asp-for="CargoTur" />
+                            <input type="hidden" asp-for="Miktari" />
+                            <input type="hidden" asp-for="CreateAt" />
+                            <div class="mb-4">
+                                <label asp-for="Price" class="form-label fw-medium"><i class="bi bi-currency-dollar me-2"></i>Fiyat</label>
+                                <div class="input-group">
+                                    <input asp-for="Price" class="form-control" placeholder="Teklif fiyatını giriniz" required />
+                                    <span class="input-group-text">₺</span>
+                                </div>
+                                <span asp-validation-for="Price" class="text-danger small"></span>
+                            </div>
+                            <div class="mb-4">
+                                <label asp-for="Description" class="form-label fw-medium"><i class="bi bi-chat-text me-2"></i>Açıklama</label>
+                                <textarea asp-for="Description" class="form-control" rows="4" placeholder="Teklifiniz hakkında detaylı bilgi veriniz" required></textarea>
+                                <span asp-validation-for="Description" class="text-danger small"></span>
+                            </div>
+                            <div class="alert alert-info d-flex align-items-center mb-4">
+                                <i class="bi bi-info-circle-fill me-2 fs-5"></i>
+                                <div><small>Teklifinizi güncelledikten sonra geçerlilik süresi yeniden başlayacaktır.</small></div>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle me-2"></i>Güncelle</button>
+                                <a asp-action="Offers" class="btn btn-light"><i class="bi bi-x-circle me-2"></i>İptal</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+

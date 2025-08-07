@@ -1,0 +1,328 @@
+﻿@model List<Kargo_İlan.DTOs.Freight.FreightIndexDto>
+
+@{
+    ViewData["Title"] = "İlanlar";
+}
+
+<div class="container-fluid py-4">
+    <div class="row g-4">
+        <!-- Sidebar Filters -->
+        <div class="col-lg-3">
+            <div class="card border-0 shadow-sm h-100 rounded-4">
+                <div class="card-header bg-primary text-white border-bottom py-3">
+                    <h5 class="card-title mb-0 d-flex align-items-center">
+                        <i class="bi bi-funnel me-2"></i>
+                        Filtreler
+                    </h5>
+                </div>
+                <div class="card-body p-3 pb-4">
+                    <form id="filterForm" method="get" asp-action="Index" class="d-flex flex-column gap-3">
+                        <!-- Arama -->
+                        <div class="form-group mb-3">
+                            <label class="form-label small text-muted mb-1">İlan No / Başlık</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="bi bi-search text-primary"></i>
+                                </span>
+                                <input type="text" id="searchText" name="searchText" class="form-control border-start-0 ps-0"
+                                       value="@ViewBag.SelectedSearchText" placeholder="Ara...">
+                            </div>
+                        </div>
+
+                        <!-- Yükleme Adresi -->
+                        <div class="form-group mb-3">
+                            <label class="form-label small text-muted mb-1 d-flex align-items-center">
+                                <i class="bi bi-geo-alt text-primary me-2"></i>Yükleme Adresi
+                            </label>
+                            <div class="row g-2">
+                                <div class="col-12">
+                                    <select id="ilFilter" name="yukilId" class="form-select">
+                                        <option value="">İl Seçin</option>
+                                        @foreach (var il in ViewBag.Provinces)
+                                        {
+                                            <option value="@il.Province_id">@il.ProvinceName</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <select id="ilceFilter" name="yukilceId" class="form-select">
+                                        <option value="">İlçe Seçin</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Varış Adresi -->
+                        <div class="form-group mb-3">
+                            <label class="form-label small text-muted mb-1 d-flex align-items-center">
+                                <i class="bi bi-geo-alt-fill text-primary me-2"></i>Varış Adresi
+                            </label>
+                            <div class="row g-2">
+                                <div class="col-12">
+                                    <select id="varisilFilter" name="varisilId" class="form-select">
+                                        <option value="">İl Seçin</option>
+                                        @foreach (var il in ViewBag.Provinces)
+                                        {
+                                            <option value="@il.Province_id">@il.ProvinceName</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <select id="varisilceFilter" name="varisilceId" class="form-select">
+                                        <option value="">İlçe Seçin</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                      
+
+
+                        <!-- Diğer Filtreler -->
+                        <div class="form-group mb-3">
+                            <label class="form-label small text-muted mb-1 d-flex align-items-center">
+                                <i class="bi bi-truck text-primary me-2"></i>
+                                Araç Türü
+                            </label>
+                            <select id="vehicleFilter" name="vehicleId" class="form-select">
+                                <option value="">Tümü</option>
+                                @foreach (var vehicle in ViewBag.Vehicles)
+                                {
+                                    <option value="@vehicle.VehicleType_id">@vehicle.VehicleName</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label class="form-label small text-muted mb-1 d-flex align-items-center">
+                                <i class="bi bi-tag text-primary me-2"></i>
+                                Kategori
+                            </label>
+                            <select id="categoryFilter" name="categoryId" class="form-select">
+                                <option value="">Tümü</option>
+                                @foreach (var category in ViewBag.Categories)
+                                {
+                                    <option value="@category.Category_id">@category.CategoryName</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label class="form-label small text-muted mb-1 d-flex align-items-center">
+                                <i class="bi bi-box-seam text-primary me-2"></i>
+                                Kargo Türü
+                            </label>
+                            <select id="cargotypeFilter" name="cargoid" class="form-select">
+                                <option value="">Tümü</option>
+                                @foreach (var category in ViewBag.CargoType)
+                                {
+                                    <option value="@category.CargoType_id">@category.CargoName</option>
+                                }
+                            </select>
+                        </div>
+
+                        <!-- Butonlar -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-funnel me-2"></i>Filtrele
+                            </button>
+                            <button type="button" id="resetFilters" class="btn btn-outline-primary">
+                                <i class="bi bi-arrow-counterclockwise me-2"></i>Sıfırla
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-lg-9">
+            <!-- Header Section -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h2 class="h4 mb-2 fw-semibold">
+                        <i class="bi bi-box me-2 text-primary"></i>İlanlar
+                    </h2>
+                    <p class="text-muted small mb-0">Toplam @Model.Count ilan</p>
+                </div>
+                <a href="@Url.Action("FreightCreate", "Freight", new { returnUrl = "Freight" })" class="btn btn-primary px-4">
+                    <i class="bi bi-plus-lg me-2"></i>Yeni İlan
+                </a>
+
+            </div>
+
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead>
+                                <tr style="text-align:center">
+                                    <th class="border-0 ps-4 fw-medium text-muted">İlan No</th>
+                                    <th class="border-0 fw-medium text-muted">Başlık</th>
+                                    <th class="border-0 fw-medium text-muted">Yükleme</th>
+                                    <th class="border-0 fw-medium text-muted">Varış</th>
+                                    <th class="border-0 fw-medium text-muted">Araç Türü</th>
+                                    <th class="border-0 fw-medium text-muted">Kargo Türü</th>
+                                    <th class="border-0 fw-medium text-muted">Kategori</th>
+                                    <th class="border-0 fw-medium text-muted">Oluşturma</th>
+                                    <th class="border-0 text-end pe-4 fw-medium text-muted">İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var freight in Model)
+                                {
+                                    <tr>
+                                        <td class="ps-4">
+                                             <a asp-action="Detail" asp-route-id="@freight.Freight_id">
+                                            <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2">
+                                                @freight.Freight_id
+                                            </span>
+                                                    </a>
+                                        </td>
+                                        <td class="py-3 px-4" style="max-width: 250px;">
+                                            <a asp-action="Detail" asp-route-id="@freight.Freight_id"
+                                               class="text-decoration-none text-dark fw-medium d-inline-block text-truncate"
+                                               style="max-width: 100%;">
+                                                @freight.Title
+                                            </a>
+                                            @{
+                                                var unit = freight.CargoType.CargoType_id switch
+                                                {
+                                                    10 or 20 => "kg",
+                                                    30 or 70 => "adet",
+                                                    40 or 50 or 60 => "litre",
+                                                    _ => ""
+                                                };
+                                            }
+                                            <div class="small text-muted mt-1">
+                                                <i class="bi bi-box me-1"></i>@freight.Miktar @unit
+                                            </div>
+
+                                            @if (!string.IsNullOrEmpty(freight.descreption))
+                                            {
+                                                <div class="small text-muted mt-1 text-truncate" style="max-width: 200px;">
+                                                    @freight.descreption
+                                                </div>
+                                            }
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center text-muted">
+                                                <i class="bi bi-geo-alt me-2"></i>
+                                                <div>
+                                                    <div>@freight.YuklemeIl.ProvinceName</div>
+                                                    <small class="text-muted">@freight.Yuklemeilce.DistrictName</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center text-muted">
+                                                <i class="bi bi-geo-alt-fill me-2"></i>
+                                                <div>
+                                                    <div>@freight.VarisIl.ProvinceName</div>
+                                                    <small class="text-muted">@freight.Varisilce.DistrictName</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center text-muted">
+                                                <i class="bi bi-truck me-2"></i>
+                                                @freight.VehicleType?.VehicleName
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center text-muted">
+                                                <i class="bi bi-box-seam me-2"></i>
+                                                @freight.CargoType?.CargoName
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center text-muted">
+                                                <i class="bi bi-tag me-2"></i>
+                                                @freight.CategoryType.CategoryName
+                                            </div>
+                                        </td>
+                                        @{
+                                            var gunFarki = (DateTime.Now.Date - freight.OlusturulmaTarihi.Date).Days;
+                                            string tarihMetni = gunFarki switch
+                                            {
+                                                0 => "Bugün",
+                                                1 => "Dün",
+                                                _ => $"{gunFarki} gün önce"
+                                            };
+                                        }
+                                        <td>
+                                            <div class="d-flex align-items-center text-muted">
+                                                <i class="bi bi-calendar me-2"></i>
+                                                @tarihMetni
+                                            </div>
+                                        </td>
+
+                                        <td class="text-end pe-4">
+                                            <div class="d-inline-flex align-items-center">
+                                                @await Html.PartialAsync("_OfferButtonPartial", freight.Freight_id)
+                                                <a asp-action="Detail" asp-route-id="@freight.Freight_id" class="btn btn-sm btn-outline-success ms-2">
+                                                    İlan Detayları
+                                                </a>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Pagination -->
+                <div class="card-footer bg-white border-top py-3">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-end mb-0">
+                            <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                                <a class="page-link text-primary" href="@Url.Action("Index", new {page = ViewBag.CurrentPage - 1,searchText = ViewBag.SelectedSearchText,
+                                  yukilId = ViewBag.SelectedIlId,yukilceId = ViewBag.SelectedIlceId,varisilId = ViewBag.SelectedVarisIlId,
+                                  varisilceId = ViewBag.SelectedVarisIlceId,vehicleId = ViewBag.SelectedVehicleId, categoryId = ViewBag.SelectedCategoryId,
+                                   cargoid = ViewBag.SelectedCargoid })" aria-label="Previous">
+                                    <i class="bi bi-chevron-left"></i>
+                                </a>
+                            </li>
+
+                            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                            {
+                                <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                                    <a class="page-link @(i == ViewBag.CurrentPage ? "bg-primary border-primary" : "text-primary")" href="@Url.Action("Index", new {page = i,searchText = ViewBag.SelectedSearchText, yukilId = ViewBag.SelectedIlId,
+                                        yukilceId = ViewBag.SelectedIlceId,varisilId = ViewBag.SelectedVarisIlId, varisilceId = ViewBag.SelectedVarisIlceId,
+                                       vehicleId = ViewBag.SelectedVehicleId,categoryId = ViewBag.SelectedCategoryId, cargoid = ViewBag.SelectedCargoid
+                                        })">@i</a>
+                                </li>
+                            }
+
+                            <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                                <a class="page-link text-primary" href="@Url.Action("Index", new {page = ViewBag.CurrentPage + 1, searchText = ViewBag.SelectedSearchText,
+                                          yukilId = ViewBag.SelectedIlId, yukilceId = ViewBag.SelectedIlceId, varisilId = ViewBag.SelectedVarisIlId,
+                                         varisilceId = ViewBag.SelectedVarisIlceId, vehicleId = ViewBag.SelectedVehicleId, categoryId = ViewBag.SelectedCategoryId,
+                                         cargoid = ViewBag.SelectedCargoid})" aria-label="Next">
+                                    <i class="bi bi-chevron-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+   
+    <script id="districts-data" type="application/json">
+        @Html.Raw(ViewBag.DistrictsJson)
+    </script>
+
+    <script src="~/js/freight//Helpers/filterAlphabetical.js" asp-append-version="true"></script>
+    <script src="~/js/freight/filterpersist.js" asp-append-version="true"></script>
+  
+}
+

@@ -1,0 +1,92 @@
+﻿@model Kargo_İlan.DTOs.UserNotificationPrefs.UserNotificationPrefCreateDto
+
+
+
+<div class="container py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="h4 mb-1">Yeni Bildirim Tercihi</h2>
+            <p class="text-muted small mb-0">İstediğiniz rotalar için bildirim tercihi oluşturun</p>
+        </div>
+        <a asp-action="Index" class="btn btn-light">
+            <i class="fas fa-arrow-left me-2"></i>Geri Dön
+        </a>
+    </div>
+
+    <!-- Form Card -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+            <form asp-action="CreateUserNotificationPref" method="post">
+                @Html.AntiForgeryToken()
+
+
+                <div asp-validation-summary="ModelOnly"
+                     class="alert alert-danger alert-dismissible fade show rounded-3 shadow-sm"
+                     role="alert"
+                     style="font-size: 0.9rem;">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Kapat"></button>
+                </div>
+
+
+                <div class="row g-4">
+                    <!-- Yükleme Bilgileri -->
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-medium">Yükleme İli</label>
+                            <select asp-for="YuklemeIlId" id="loadingCity" class="form-select" asp-items="ViewBag.ProvinceList" required>
+                                <option value="">İl Seçiniz</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-medium">Yükleme İlçesi</label>
+                            <select asp-for="YuklemeIlceId" id="loadingDistrict" class="form-select" disabled>
+                                <option value="">İlçe Seçiniz</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Varış Bilgileri -->
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-medium">Varış İli</label>
+                            <select asp-for="VarisIlId" id="destinationCity" class="form-select" asp-items="ViewBag.ProvinceList" required>
+                                <option value="">İl Seçiniz</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-medium">Varış İlçesi</label>
+                            <select asp-for="VarisIlceId" id="destinationDistrict" class="form-select" disabled>
+                                <option value="">İlçe Seçiniz</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Aktiflik Durumu -->
+                    <div class="col-12">
+                        <div class="form-check">
+                            <input asp-for="IsActive" type="checkbox" class="form-check-input" id="isActive" />
+                            <label asp-for="IsActive" class="form-check-label fw-medium" for="isActive">
+                                Bildirim tercihini aktif et
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Kaydet Butonu -->
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Kaydet
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script id="districts-data" type="application/json">
+        @Html.Raw(ViewBag.DistrictsJson)
+    </script>
+    <script src="~/js/Freight/Helpers/AdressHandler.js" asp-append-version="true"></script>
+}

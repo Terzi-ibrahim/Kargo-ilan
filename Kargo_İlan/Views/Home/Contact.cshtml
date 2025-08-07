@@ -1,0 +1,71 @@
+﻿@model Kargo_İlan.DTOs.ContactDTO
+@{
+    ViewData["Title"] = "İletişim";
+}
+
+
+
+<!-- Contact 1 - Bootstrap Brain Component -->
+<section class="py-3 py-md-5" style="background-color: whitesmoke;">
+
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+                <h2 class="mb-4 display-5 text-center">İletişim</h2>
+                <p class="text-secondary mb-5 text-center">Bizimle iletişime geçmenin en iyi yolu aşağıdaki iletişim formumuzu kullanmaktır. 
+                Lütfen gerekli tüm alanları doldurun, en kısa sürede size geri döneceğiz.</p>
+                <hr class="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle">
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-lg-center">
+            <div class="col-12 col-lg-9">
+                <div class="bg-white border rounded shadow-sm overflow-hidden">
+
+                    <form asp-action="Contact" asp-controller="Home" method="post">
+                        @Html.AntiForgeryToken()
+                        <div class="row gy-4 gy-xl-5 p-4 p-xl-5">
+                            <!-- Ad Soyad -->
+                            <div class="col-12">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="FullName" class="form-control" placeholder="FullName" />
+                                    <label asp-for="FullName">Ad Soyad</label>
+                                </div>
+                                <span asp-validation-for="FullName" class="text-danger small ms-1"></span>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="col-12">
+                                <div class="form-floating mb-1">
+                                    <input asp-for="Email" class="form-control" placeholder="Email" />
+                                    <label asp-for="Email">Email</label>
+                                </div>
+                                <span asp-validation-for="Email" class="text-danger small ms-1"></span>
+                            </div>
+
+                            <!-- Mesaj -->
+                            <div class="col-12">
+                                <div class="form-floating mb-xl-3">
+                                    <textarea asp-for="Message" class="form-control" placeholder="Mesajınız" style="height: 150px;"></textarea>
+                                    <label asp-for="Message">Mesajınız</label>
+                                </div>
+                                <span asp-validation-for="Message" class="text-danger small ms-1"></span>
+                            </div>
+
+                            <!-- Buton -->
+                            <div class="col-12">
+                                <div class="d-grid">
+                                    <button class="btn btn-lg text-white" type="submit" style="background-color: #2c3e50;">Gönder</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

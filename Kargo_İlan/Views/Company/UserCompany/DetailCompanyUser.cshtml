@@ -1,0 +1,294 @@
+﻿@model Kargo_İlan.DTOs.Company.CompanyUserDetail
+@{
+    ViewData["Title"] = "Kullanıcı Detayları";
+    var totalListings = Model.Listings?.Count ?? 0;
+    var totalOffersMade = Model.Offers?.Count ?? 0;
+    var totalOffersReceived = Model.Listings?.Sum(l => l.Offers?.Count ?? 0) ?? 0;
+    var hasReceivedOffers = Model.Listings?.Any(l => l.Offers != null && l.Offers.Any()) ?? false;
+}
+
+<div class="container py-4">
+    <!-- Kullanıcı Bilgileri ve İstatistikler -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-header bg-primary text-white rounded-top-4">
+                    <h5 class="mb-0"><i class="bi bi-person-circle me-2"></i>Kullanıcı Bilgileri</h5>
+                </div>
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-5">Kullanıcı Adı</dt>
+                        <dd class="col-7">@Model.UserName</dd>
+                        <dt class="col-5">Ad</dt>
+                        <dd class="col-7">@Model.Name</dd>
+                        <dt class="col-5">Soyad</dt>
+                        <dd class="col-7">@Model.Surname</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="card text-white bg-info text-center shadow-sm border-0 rounded-4">
+                        <div class="card-body">
+                            <i class="bi bi-box-seam fs-3"></i>
+                            <h6 class="mt-2">Toplam İlan</h6>
+                            <h4>@totalListings</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-white bg-success text-center shadow-sm border-0 rounded-4">
+                        <div class="card-body">
+                            <i class="bi bi-send-check fs-3"></i>
+                            <h6 class="mt-2">Verilen Teklif</h6>
+                            <h4>@totalOffersMade</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-white bg-warning text-center shadow-sm border-0 rounded-4">
+                        <div class="card-body">
+                            <i class="bi bi-chat-dots fs-3"></i>
+                            <h6 class="mt-2">Gelen Teklif</h6>
+                            <h4>@totalOffersReceived</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Son İlanlar -->
+    <div class="card shadow-sm border-0 rounded-4 mb-4">
+        <div class="card-header bg-secondary text-white rounded-top-4">
+            <h5 class="mb-0">📦 Son İlanlar</h5>
+        </div>
+        <div class="card-body p-0">
+            @if (Model.Listings != null && Model.Listings.Any())
+            {
+               <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
+                    <table class="table table-hover table-sm mb-0 align-middle" style="table-layout: fixed; width: 100%;">
+
+                        <thead class="table-light" style="text-align : center">
+                            <tr >
+                                <th style="max-width:200px;">Başlık</th>
+                                <th>Yükleme</th>
+                                <th>Varış</th>
+                                <th>Tarih</th>
+                            </tr>
+                        </thead>
+                        <tbody style="text-align :center">
+                            @foreach (var listing in Model.Listings.Take(5))
+                            {
+                                <tr>
+                                    <td style="max-width:200px;">
+                                        <div class="text-truncate" title="@listing.Title">
+                                            <a asp-controller="Freight" asp-action="Detail" asp-route-id="@listing.Freight_id" class="text-decoration-none">@listing.Title</a>
+                                        </div>
+                                    </td>
+                                    <td>@listing.YuklemeIl / @listing.YuklemeIlce</td>
+                                    <td>@listing.VarisIl / @listing.VarisIlce</td>
+                                    <td>@listing.OlusturulmaTarihi.ToString("dd.MM.yyyy")</td>
+                                </tr>
+                            }
+
+                            @foreach (var listing in Model.Listings.Skip(5))
+                            {
+                                <tr class="hidden-listing" style="display:none;">
+                                    <td style="max-width:200px;">
+                                        <div class="text-truncate" title="@listing.Title">
+                                            <a asp-controller="Freight" asp-action="Detail" asp-route-id="@listing.Freight_id" class="text-decoration-none">@listing.Title</a>
+                                        </div>
+                                    </td>
+                                    <td>@listing.YuklemeIl / @listing.YuklemeIlce</td>
+                                    <td>@listing.VarisIl / @listing.VarisIlce</td>
+                                    <td>@listing.OlusturulmaTarihi.ToString("dd.MM.yyyy")</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+
+                @if (totalListings > 5)
+                {
+                    <div class="text-center mt-2">
+                        <button id="toggleListingsBtn" class="btn btn-outline-primary btn-sm">Daha Fazla Göster</button>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="p-3">
+                    <div class="alert alert-warning mb-0">İlan bulunamadı.</div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Son Verilen Teklifler -->
+    <div class="card shadow-sm border-0 rounded-4 mb-4">
+        <div class="card-header bg-success text-white rounded-top-4">
+            <h5 class="mb-0"><i class="bi bi-send-check me-2"></i>Son Verilen Teklifler</h5>
+        </div>
+        <div class="card-body p-0">
+            @if (Model.Offers != null && Model.Offers.Any())
+            {
+                   <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
+                    <table class="table table-hover table-sm mb-0 align-middle" style="table-layout: fixed; width: 100%;">
+                        <thead class="table-light" style="text-align :  center">
+                            <tr>
+                                <th>İlan Başlığı</th>
+                                <th>Teklif Açıklaması</th>
+                                <th>Tutar</th>
+                                <th>Tarih</th>
+                            </tr>
+                        </thead>
+                        <tbody style="text-align :  center"> 
+                            @foreach (var offer in Model.Offers.OrderByDescending(o => o.Date).Take(5))
+                            {
+                                <tr>
+                                    <td>
+                                        <a asp-controller="Freight" asp-action="Detail" asp-route-id="@offer.Freight_id" class="text-decoration-none">@offer.FreightTitle</a>
+                                    </td>
+                                    <td>@offer.Description</td>
+                                    <td><strong>@offer.Price.ToString("N2") ₺</strong></td>
+                                    <td>@offer.Date.ToString("dd.MM.yyyy HH:mm")</td>
+                                </tr>
+                            }
+
+                            @if (totalOffersMade > 5)
+                            {
+                                foreach (var offer in Model.Offers.OrderByDescending(o => o.Date).Skip(5))
+                                {
+                                    <tr class="hidden-offer " style= display:none;" >
+                                    
+                                        <td>
+                                            <a asp-controller="Freight" asp-action="Detail" asp-route-id="@offer.Freight_id" class="text-decoration-none">@offer.FreightTitle</a>
+                                        </td>
+                                        <td>@offer.Description</td>
+                                        <td><strong>@offer.Price.ToString("N2") ₺</strong></td>
+                                        <td>@offer.Date.ToString("dd.MM.yyyy HH:mm")</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                @if (totalOffersMade > 5)
+                {
+                    <div class="text-center mt-2">
+                        <button id="toggleOffersBtn" class="btn btn-outline-primary btn-sm">Daha Fazla Göster</button>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="p-3">
+                    <div class="alert alert-warning mb-0">Verilen teklif bulunamadı.</div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Gelen Teklifler -->
+    <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-header bg-warning text-dark rounded-top-4">
+            <h5 class="mb-0"><i class="bi bi-chat-left-dots me-2"></i>İlanlara Gelen Son Teklifler</h5>
+        </div>
+        <div class="card-body p-0">
+            @if (hasReceivedOffers)
+            {
+                var allReceivedOffers = Model.Listings
+                .SelectMany(l => l.Offers.Select(o => new
+                {
+                    ListingId = l.Freight_id,
+                    ListingTitle = l.Title,
+                    o.OfferUserName,
+                    o.Price,
+                    o.Date
+                }))
+                .OrderByDescending(x => x.Date)
+                .ToList();
+
+                  <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
+                    <table class="table table-hover table-sm mb-0 align-middle" style="table-layout: fixed; width: 100%;">
+                        <thead class="table-light" style="text-align :  center">
+                            <tr>
+                                <th>İlan</th>
+                                <th>Teklif Veren</th>
+                                <th>Tutar</th>
+                                <th>Tarih</th>
+                            </tr>
+                        </thead>
+                        <tbody style="text-align :  center">
+                            @foreach (var offer in allReceivedOffers.Take(5))
+                            {
+                                <tr>
+                                    <td>@offer.ListingTitle</td>
+                                    <td>@offer.OfferUserName</td>
+                                    <td><strong>@offer.Price.ToString("N2") ₺</strong></td>
+                                    <td>@offer.Date.ToString("dd.MM.yyyy HH:mm")</td>
+                                </tr>
+                            }
+
+                            @if (totalOffersReceived > 5)
+                            {
+                                foreach (var offer in allReceivedOffers.Skip(5))
+                                {
+                                    <tr class="hidden-received-offer " style= display:none;" >
+                                        <td>@offer.ListingTitle</td>
+                                        <td>@offer.OfferUserName</td>
+                                        <td><strong>@offer.Price.ToString("N2") ₺</strong></td>
+                                        <td>@offer.Date.ToString("dd.MM.yyyy HH:mm")</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                @if (totalOffersReceived > 5)
+                {
+                    <div class="text-center mt-2">
+                        <button id="toggleReceivedOffersBtn" class="btn btn-outline-primary btn-sm">Daha Fazla Göster</button>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="p-3">
+                    <div class="alert alert-warning mb-0">Gelen teklif yok.</div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function toggleRows(buttonId, rowClass) {
+            const btn = document.getElementById(buttonId);
+            if (!btn) return;
+
+            btn.addEventListener('click', () => {
+                const hiddenRows = document.querySelectorAll(`.${rowClass}`);
+                if (hiddenRows.length === 0) return;
+
+                const isHidden = hiddenRows[0].style.display === 'none';
+                hiddenRows.forEach(row => {
+                    row.style.display = isHidden ? 'table-row' : 'none';
+                });
+
+                btn.textContent = isHidden ? 'Daha Az Göster' : 'Daha Fazla Göster';
+            });
+        }
+
+        toggleRows('toggleListingsBtn', 'hidden-listing');
+        toggleRows('toggleOffersBtn', 'hidden-offer');
+        toggleRows('toggleReceivedOffersBtn', 'hidden-received-offer');
+    </script>
+}

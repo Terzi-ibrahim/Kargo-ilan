@@ -1,0 +1,128 @@
+﻿@model Kargo_İlan.DTOs.Account.Register
+@{
+    ViewData["Title"] = "Kayıt Ol";
+}
+
+<section class="bg-light p-3 p-md-4 p-xl-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-xxl-11">
+                <div class="card border-light-subtle shadow-sm">
+                    <div class="row g-0">
+                        <div class="col-12 col-md-6">
+                            <img id="slideshowImage"src="~/images/foto1.png"
+                                 class="img-fluid w-100 h-100 object-fit-cover rounded-start"
+                                 alt="Giriş Görseli"style="opacity: 1; transition: opacity 0.5s ease-in-out;">
+                        </div>
+                        <div class="col-12 col-md-6 d-flex align-items-center justify-content-center">
+                            <div class="col-12 col-lg-11 col-xl-10">
+                                <div class="card-body p-3 p-md-4 p-xl-5">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="mb-5">
+                                                <div class="text-center mb-4">
+                                                    <img src="~/images/logo.png" class="rounded-circle" style="width: 128px; height: 128px;" />
+                                                </div>
+                                                <h2 class="h4 text-center">Kayıt Ol</h2>                                              
+                                            </div>
+                                        </div>
+                                    </div>                                 
+                                    <form asp-action="Register" method="post">
+
+                                        @Html.AntiForgeryToken()
+
+                                        <div asp-validation-summary="ModelOnly"
+                                             class="alert alert-danger alert-dismissible fade show rounded-3 shadow-sm"
+                                             role="alert"
+                                             style="font-size: 0.9rem;">
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Kapat"></button>
+                                        </div>
+
+
+                                        <div class="form-floating mb-3">
+                                            <input asp-for="Name" class="form-control" placeholder="Ad" />
+                                            <label asp-for="Name"></label>
+                                            <span asp-validation-for="Name" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input asp-for="Surname" class="form-control" placeholder="Soyad"/>
+                                            <label asp-for="Surname"></label>
+                                            <span asp-validation-for="Surname" class="text-danger"></span>
+                                        </div>
+
+
+                                        <div class="form-floating mb-3">
+                                            <input asp-for="UserName" class="form-control" placeholder="Kullanıcı Adı" autocomplete="new-username" />
+
+
+                                            <label asp-for="UserName">Kullancı Adı</label>
+                                            <span asp-validation-for="UserName" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input asp-for="Email" class="form-control" placeholder="Email" autocomplete="email" />
+
+                                            <label asp-for="Email">Email</label>
+                                            <span asp-validation-for="Email" class="text-danger"></span>
+                                        </div>       
+
+
+
+
+
+                                        <div class="form-floating mb-2">
+                                            <input asp-for="PhoneNumber" type="tel" class="form-control" placeholder="Telefon Numarası" id="PhoneNumber" maxlength="14"/>
+                                            <label asp-for="PhoneNumber">Telefon Numarası</label>
+                                            <span asp-validation-for="PhoneNumber" class="text-danger small ms-1"></span>
+                                        </div>
+
+
+                                        <div class="form-floating mb-2">
+                                            <div class="form-floating mb-1 position-relative">
+                                                <input asp-for="Password" class="form-control" placeholder="Şifre" id="Password" type="password" />
+                                                <label asp-for="Password">Şifre</label>
+                                                <i id="togglePassword" class="bi bi-eye-fill text-secondary"
+                                                   style="position: absolute; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer;"
+                                                   title="Şifreyi göster/gizle"></i>
+                                            </div>
+                                            <span asp-validation-for="Password" class="text-danger small ms-1"></span>
+                                        </div>                                    
+                                        <div class="form-floating mb-2">
+                                            <div class="form-floating mb-1 position-relative">
+                                                <input asp-for="ConfirmPassword" class="form-control" placeholder="Şifre Tekrar" id="ConfirmPassword" type="password" />
+                                                <label asp-for="ConfirmPassword">Şifre Tekrar</label>
+                                                <i id="toggleConfirmPassword" class="bi bi-eye-fill text-secondary"
+                                                   style="position: absolute; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer;"
+                                                   title="Şifreyi göster/gizle"></i>
+                                            </div>
+                                            <span asp-validation-for="ConfirmPassword" class="text-danger small ms-1"></span>
+                                        </div>
+
+
+                                        <div class="form-floating mb-3">
+                                            <textarea asp-for="Address" class="form-control" placeholder="Adres" style="height: 100px;"></textarea>
+                                            <label asp-for="Address">Adres</label>
+                                            <span asp-validation-for="Address" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="d-grid">
+                                            <button type="submit" class="btn btn-dark btn-lg">Kayıt Ol</button>
+                                        </div>
+                                    </form>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <p class="mt-4 text-center">Zaten bir hesabınız var mı? <a href="/Account/Login">Giriş yapın</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts { 
+    <script src="~/js/Account/register.js" asp-append-version="true"></script>
+
+}

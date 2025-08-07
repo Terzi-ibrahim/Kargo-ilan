@@ -1,0 +1,67 @@
+﻿<!-- About 1 - Bootstrap Brain Component -->
+
+<section class="py-3 py-md-5 bg-light">
+    <div class="container">
+        <div class="row gy-3 gy-md-4 gy-lg-0 align-items-lg-center">
+            <div class="col-12 col-lg-6 col-xl-5">
+                <img class="img-fluid rounded" loading="lazy" src="~/images/about1.png" alt="About 1">
+            </div>
+            <div class="col-12 col-lg-6 col-xl-7">
+                <div class="row justify-content-xl-center">
+                    <div class="col-12 col-xl-11">
+                        <h1 class="mb-3">Kısaca Ne Yapıyoruz?</h1>
+                        <p class="lead fs-4 text-dark mb-3">
+                            Bir şey taşıtmak mı istiyorsun? Hemen bir ilan oluşturuyorsun, sistemimize kayıtlı taşıma firmaları bu ilana teklif veriyor. Sen de içlerinden bütçene ve ihtiyacına en uygun olanı seçiyorsun. Bu kadar basit!
+                        </p>
+                        <h4 class ="mb-3">
+                            Peki neden böyle bir şey yaptık?
+                        </h4>
+                        <p class="mb-4 lead fs-5">
+                            Çünkü bazen sadece bir koliyi bir yerden bir yere götürmek bile uğraştırıcı olabiliyor. Tek tek firmaları aramak, fiyat almak, güvenmek... Biz dedik ki, neden hepsi tek bir yerde olmasın? Hem kullanıcılar kolayca ilan versin hem firmalar işini yapsın, herkes mutlu olsun.
+                        </p>
+
+                        <div class="row gy-4 gy-md-0 gx-xxl-5X">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="me-3 text-primary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="fs-5 m-0">İnsanların taşıma işini daha kolay, hızlı ve uygun hale getirmek istiyoruz..</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="me-3 text-primary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="fs-5 m-0">Kullanıcılarla firmalar arasında köprü oluyoruz.</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center mb-4 mb-xl-5">
+                                <div class="me-3 text-primary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="fs-5 m-0">Hedeflerinize ulaşmanız için bizi Tercih edin </p>
+                                </div>
+                            </div>
+                            <a href="@(User.Identity.IsAuthenticated ? Url.Action("FreightCreate", "Freight") : Url.Action("Login", "Account"))" class="btn bsb-btn-xl btn-outline-primary rounded-pill">
+                                Şimdi İlan Oluşturun
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+

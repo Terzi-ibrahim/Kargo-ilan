@@ -1,0 +1,65 @@
+﻿@model Kargo_İlan.DTOs.Company.CompanyUserDto
+
+@{
+    ViewData["Title"] = "Kullanıcı Sil";
+}
+@{
+    var successMessage = TempData["SuccessMessage"] as string;
+    var errorMessage = TempData["ErrorMessage"] as string;
+}
+
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <div class="alert alert-success">
+        @successMessage
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger">
+        @errorMessage
+    </div>
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <h4>Kullanıcı Bilgileri</h4>
+   
+        <dl class="row">
+            <dt class="col-sm-2">Ad</dt>
+        <dd class="col-sm-10">@Model.Name</dd>
+
+            <dt class="col-sm-2">Soyad</dt>
+        <dd class="col-sm-10">@Model.SurName</dd>
+
+            <dt class="col-sm-2">E-posta</dt>
+        <dd class="col-sm-10">@Model.Email</dd>
+
+            <dt class="col-sm-2">Telefon</dt>
+        <dd class="col-sm-10">@Model.Phone</dd>
+
+            <dt class="col-sm-2">Kullancı Durumu</dt>
+            <dd class="col-sm-10">
+            @if (@Model.IsDeleted)
+                {
+                    <span class="text-danger">Silindi</span>
+                }
+                else
+                {
+                    <span class="text-success">Aktif</span>
+                }
+            </dd>
+
+            <dt class="col-sm-2"></dt>
+            <dd class="col-sm-10">
+                <!-- Silme Butonu -->
+            <form method="post" asp-action="ConfirmDeleteCompanyUser" asp-route-userCompanyId="@Model.Company_id" asp-route-companyUserId="@Model.User_id">
+                    <button type="submit" class="btn btn-danger" >Kullanıcıyı Sil</button>
+                    <a href="@Url.Action("CompanyStaffList", "Company")" class="btn btn-secondary">İptal</a>
+                </form>
+            </dd>
+        </dl>
+    
+</div>

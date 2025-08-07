@@ -1,0 +1,231 @@
+﻿@model Kargo_İlan.DTOs.Company.CompanyProfile
+
+<section class="bg-light py-4 py-md-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold">
+                <i class="bi bi-person-badge-fill me-2 text-primary"></i> Profil
+            </h2>
+            <p class="text-secondary fs-5">
+                Şirket Profil sayfası, deneyiminizi ince ayarlayabileceğiniz dijital merkezinizdir. Buradan tüm bilgilerinize ulaşabilir ve güncelleyebilirsiniz.
+            </p>
+            <hr class="w-50 mx-auto border-primary">
+        </div>
+
+        <div class="row g-4">
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm border-0 rounded-4">
+                    <div class="card-header bg-primary text-white rounded-top-4">
+                        <i class="bi bi-person-fill me-2"></i> Hoşgeldiniz
+                    </div>
+                    <div class="card-body text-center">
+                        <h5 class="fw-semibold d-flex flex-column align-items-center text-center">
+                            <i class="bi bi-person-circle mb-1" style="font-size: 1.5rem;"></i>
+                            <span class="text-wrap" style="max-width: 90%;">@Model.CompanyName</span>
+                        </h5>
+                        <ul class="list-group list-group-flush text-start mb-4">
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="bi bi-truck me-2 text-primary"></i> Aktif ilanların</span>
+                                <span class="fw-semibold">@Model.ActiveFreight</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span><i class="bi bi-hand-thumbs-up-fill me-2 text-success"></i> Teklif verilen ilan</span>
+                                <span class="fw-semibold">@Model.OfferedFreight</span>
+                            </li>
+                        </ul>
+                        <a href="/Freight/MyFreight" class="btn btn-outline-primary w-100 rounded-pill shadow-sm">
+                            <i class="bi bi-card-list me-2"></i> İlanlarım
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm border-0 rounded-4 mt-4">
+                    <div class="card-header bg-primary text-white rounded-top-4">
+                        <i class="bi bi-info-circle-fill me-2"></i> Şirket İletişim Bilgileri
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">                                                   
+                            <li class="list-group-item d-flex align-items-start">
+                                <i class="bi bi-envelope-fill fs-4 text-primary me-3"></i>
+                                <div>
+                                    <div class="fw-semibold">Email</div>
+                                    <div class="text-muted">@Model.CompanyEmail</div>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex align-items-start">
+                                <i class="bi bi-telephone-fill fs-4 text-primary me-3"></i>
+                                <div>
+                                    <div class="fw-semibold">Telefon</div>
+                                    <div class="text-muted">@Model.CompanyPhone</div>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex align-items-start">
+                                <i class="bi bi-geo-alt-fill fs-4 text-primary me-3"></i>
+                                <div>
+                                    <div class="fw-semibold">Adres</div>
+                                    <div class="text-muted">@Html.Raw(Model.CompanyAdress?.Replace("\n", "<br>"))</div>
+                                </div>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main content -->
+            <div class="col-lg-8">
+                <div class="card shadow-sm border-0 rounded-4">
+                    <div class="card-body p-4">
+                        <ul class="nav nav-tabs mb-4" id="profileTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview-tab-pane" type="button" role="tab" aria-controls="overview-tab-pane" aria-selected="true">
+                                    <i class="bi bi-eye-fill me-1"></i> Profil
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">
+                                    <i class="bi bi-pencil-square me-1"></i> Profil Düzenle
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="password-tab" data-bs-toggle="tab" data-bs-target="#password-tab-pane" type="button" role="tab" aria-controls="password-tab-pane" aria-selected="false">
+                                    <i class="bi bi-lock-fill me-1"></i> Şirket Kullanıcı İşlemleri
+                                </button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content" id="profileTabContent">
+                            <!-- Overview Tab -->
+                            <div class="tab-pane fade show active" id="overview-tab-pane" role="tabpanel" aria-labelledby="overview-tab">
+                                <div class="row gy-3">                             
+                                    <div class="col-sm-6">
+                                        <div class="bg-light p-3 rounded shadow-sm">
+                                            <strong>Şirket Adı:</strong> @Model.CompanyName
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="bg-light p-3 rounded shadow-sm">
+                                            <strong>Email:</strong> @Model.CompanyEmail
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="bg-light p-3 rounded shadow-sm">
+                                            <strong>Telefon:</strong> @Model.CompanyPhone
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="bg-light p-3 rounded shadow-sm">
+                                            <strong>Vergi Numarası:</strong> @Model.TaxNumber
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="bg-light p-3 rounded shadow-sm">
+                                            <strong>Adres:</strong> @Html.Raw(Model.CompanyAdress?.Replace("\n", "<br>"))
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab">
+                                <form asp-action="UpdateCompanyProfile" asp-controller="Company" method="post" class="row gy-3">
+                                    @Html.AntiForgeryToken()
+
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <input asp-for="CompanyName" class="form-control" id="fullName" placeholder="Kullanıcı Adı" />
+                                            <label for="fullName">Şirket Adı</label>
+                                        </div>
+                                        <span asp-validation-for="CompanyName" class="text-danger small ms-1"></span>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <input asp-for="CompanyPhone" class="form-control" id="phoneNumber" placeholder="Telefon Numarası" />
+                                            <label for="phoneNumber">Telefon Numarası</label>
+                                        </div>
+                                        <span asp-validation-for="CompanyPhone" class="text-danger small ms-1"></span>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <input asp-for="CompanyEmail" class="form-control" id="email" placeholder="Email" />
+                                            <label for="email">Email</label>
+                                        </div>
+                                        <span asp-validation-for="CompanyEmail" class="text-danger small ms-1"></span>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <textarea asp-for="CompanyAdress" class="form-control" id="Address" placeholder="Adres" style="height: 100px;"></textarea>
+                                            <label for="Address">Adres</label>
+                                        </div>
+                                        <span asp-validation-for="CompanyAdress" class="text-danger small ms-1"></span>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <textarea asp-for="TaxNumber" class="form-control" id="vergino" placeholder="vergino" style="height: 100px;"></textarea>
+                                            <label for="vergino">Vergi Numarası</label>
+                                        </div>
+                                        <span asp-validation-for="TaxNumber" class="text-danger small ms-1"></span>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="d-grid">
+                                            <button type="submit" class="btn btn-primary">Kaydet</button>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+
+
+                            <div class="tab-pane fade" id="password-tab-pane" role="tabpanel" aria-labelledby="password-tab">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5>Şirket Kullanıcıları</h5>
+                                    <a asp-controller="Company" asp-action="AddCompanyUser" class="btn btn-success">+ Yeni Kullanıcı Ekle</a>
+
+                                </div>
+
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Ad Soyad</th>                                  
+                                            <th>Durum</th>
+                                            <th>İşlemler</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var user in Model.CompanyUsers)
+                                        {
+                                            <tr>
+                                                <td>@user.Name , @user.SurName</td>
+                                                <td>@(user.IsDeleted ? "Pasif" : "Aktif")</td>
+                                                <td>                                          
+                                                    <a asp-controller="Company" asp-action="DetailCompanyUser" asp-route-id="@user.User_id" class="btn btn-sm btn-info me-1">Detay</a>  
+                                                    <a asp-controller="Company" asp-action="DeleteCompanyUser" asp-route-userCompanyId="@user.Company_id" 
+                                                    asp-route-companyUserId="@user.User_id" class="btn btn-sm btn-danger">Sil</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card mt-4 border-danger shadow-sm">
+            <div class="card-body text-center">
+                <form asp-action="DeleteCompany" method="post" asp-controller="Company" onsubmit="return confirm('Şirketi silmek istediğinize emin misiniz?');">
+                    <button type="submit" class="btn btn-danger">Şirketi Sil</button>
+                    @Html.AntiForgeryToken()
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+
+
+
+

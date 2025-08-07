@@ -1,0 +1,132 @@
+﻿@model List<Kargo_İlan.DTOs.Freight.FreightIndexDto>
+
+@{
+    ViewData["Title"] = "İlanlarım";
+}
+
+<div class="container py-5">
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h2 class="h4 mb-2 fw-semibold">
+                <i class="fas fa-truck me-2 text-primary"></i>İlanlarım
+            </h2>
+            <p class="text-muted small mb-0">Toplam @Model.Count ilan</p>
+        </div>
+        <a href="@Url.Action("FreightCreate", "Freight", new { returnUrl = "MyFreight" })" class="btn btn-primary px-4">
+            <i class="fas fa-plus me-2"></i>Yeni İlan
+        </a>
+
+    </div>
+
+    <!-- Main Content -->
+    <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th class="border-0 ps-4 fw-medium text-muted">İlan No</th>
+                            <th class="border-0 fw-medium text-muted">Başlık</th>
+                            <th class="border-0 fw-medium text-muted">Yükleme</th>
+                            <th class="border-0 fw-medium text-muted">Varış</th>
+                            <th class="border-0 fw-medium text-muted">Araç Türü</th>
+                            <th class="border-0 fw-medium text-muted">Kargo Türü</th>
+                            <th class="border-0 fw-medium text-muted">Kategori</th>
+                            <th class="border-0 fw-medium text-muted">Oluşturma</th>
+                            <th class="border-0 text-end pe-4 fw-medium text-muted">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var listing in Model)
+                        {
+                            <tr>
+                                <td class="ps-4">
+                                    <a asp-action="Detail" asp-route-id="@listing.Freight_id" asp-route-returnUrl="MyFreight">
+                                        <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2">
+                                            #@listing.Freight_id
+                                        </span>
+                                    </a>
+                                </td>
+                              
+                                <td class="py-3 px-4" style="max-width: 250px;">
+                                    <a asp-action="Detail" asp-route-id="@listing.Freight_id" asp-route-returnUrl="MyFreight"
+                                       class="text-decoration-none text-dark fw-medium d-inline-block text-truncate"
+                                       style="max-width: 100%;">
+                                        @listing.Title
+                                    </a>
+                                    @{
+                                        var unitMap = ViewBag.CargoUnitMap as Dictionary<int, string>;
+                                        var unit = unitMap.ContainsKey(listing.CargoType.CargoType_id) ? unitMap[listing.CargoType.CargoType_id] : "";
+                                    }
+                                    <span class="small text-muted">
+                                        <i class="fas fa-box me-1"></i>@listing.Miktar @unit
+                                    </span>
+
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center text-muted">
+                                        <i class="fas fa-map-marker-alt me-2"></i>
+                                        @listing.YuklemeIl.ProvinceName
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center text-muted">
+                                        <i class="fas fa-map-marker-alt me-2"></i>
+                                        @listing.VarisIl.ProvinceName
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center text-muted">
+                                        <i class="fas fa-truck me-2"></i>
+                                        @listing.VehicleType.VehicleName
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center text-muted">
+                                        <i class="fas fa-box me-2"></i>
+                                        @listing.CargoType.CargoName
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center text-muted">
+                                        <i class="fas fa-tag me-2"></i>
+                                        @listing.CategoryType.CategoryName
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center text-muted">
+                                        <i class="fas fa-calendar me-2"></i>
+                                        @listing.OlusturulmaTarihi.ToString("dd.MM.yyyy")
+                                    </div>
+                                </td>
+                                <td class="text-end pe-4">
+                                    <div class="d-flex gap-2 justify-content-end">
+                                        <a asp-action="Detail"
+                                           asp-route-id="@listing.Freight_id"
+                                           asp-route-returnUrl="MyFreight"
+                                           class="btn btn-sm btn-light rounded-3"
+                                           title="Detay">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+
+                                        <a asp-action="FreightEdit" asp-route-id="@listing.Freight_id"
+                                           class="btn btn-sm btn-light rounded-3" title="Düzenle">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a asp-action="FreightDelete" asp-route-id="@listing.Freight_id"
+                                           class="btn btn-sm btn-light rounded-3 text-danger" title="Sil">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+

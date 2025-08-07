@@ -1,0 +1,39 @@
+﻿@model Kargo_İlan.Models.UserNotificationPrefs
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-6">
+            <div class="text-center mb-4">
+                <h2 class="h4 mb-2 text-danger"><i class="fas fa-exclamation-triangle me-2"></i>Bildirim Tercihini Sil</h2>
+                <p class="text-muted">Bu bildirim tercihini silmek istediğinize emin misiniz?</p>
+            </div>
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="fw-semibold">Yükleme:</span>
+                        <span class="text-dark">@Model.Yukleme_il?.ProvinceName @Model.Yukleme_ilce?.DistrictName</span>
+                    </div>
+                    <div class="mb-2">
+                        <span class="fw-semibold">Varış:</span>
+                        <span class="text-dark">@Model.Varis_il?.ProvinceName @Model.Varis_ilce?.DistrictName</span>
+                    </div>
+                    <div class="mb-2">
+                        <span class="fw-semibold">Oluşturulma:</span>
+                        <span class="text-dark">@Model.CreatedAt.ToLocalTime().ToString("g")</span>
+                    </div>
+                </div>
+            </div>
+            <form asp-action="DeleteConfirmed" asp-route-id="@Model.UserNotificationPrefId" method="post" class="d-flex gap-2 justify-content-center">
+
+                @Html.AntiForgeryToken()
+            
+
+                <input type="hidden" asp-for="UserNotificationPrefId" />
+                <button type="submit" class="btn btn-danger px-4">
+                    <i class="fas fa-trash me-2"></i>Evet, Sil
+                </button>
+                <a asp-action="Index" class="btn btn-secondary px-4">Vazgeç</a>
+            </form>
+        </div>
+    </div>
+</div>

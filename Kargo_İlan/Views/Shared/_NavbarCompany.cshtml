@@ -1,0 +1,133 @@
+﻿@inject Kargo_İlan.Data.KargoDbContext _context
+
+@{
+    var userName = User.Identity?.Name;
+    int unreadNotificationCount = 0;
+
+    if (!string.IsNullOrEmpty(userName))
+    {
+        var user = _context.User.FirstOrDefault(c => c.UserName == userName);
+        if (user != null)
+        {
+          
+            var person = _context.Person.FirstOrDefault(u => u.Person_id == user.Person_id);
+
+            if (person != null) 
+            {
+                unreadNotificationCount = _context.Notification
+                    .Where(n => n.User_id == user.User_id && !n.IsRead)
+                    .Count();
+            }
+        }
+    }
+}
+<nav class="navbar navbar-expand-md bg-light bsb-navbar bsb-navbar-hover bsb-navbar-caret">
+    <div class="container-fluid px-5 d-flex align-items-center justify-content-between">
+        <!-- Logo -->
+        <a class="navbar-brand d-flex align-items-center gap-2" href="/Home/Index" style="min-width: 180px;">
+            <img src="~/images/logo.png" alt="Kargo İlan Logo" width="60" height="60" />
+            <span class="fw-semibold fs-5 text-light">Kargo İlan</span>
+        </a>   
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+            </svg>
+        </button>
+
+        <!-- Menü -->
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menü</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+
+            <ul class="navbar-nav justify-content-end flex-grow-1">
+           
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Home" asp-action="Index">
+                        <i class="fas fa-home me-1"></i>Ana Sayfa
+                    </a>
+                </li>
+                <li class="nav-item dropdown">               
+                    <a class="nav-link dropdown-toggle" href="/Freight/Index" id="companyDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        İlanlar
+                    </a>
+                    <ul class="dropdown-menu border-0 shadow bsb-zoomIn" aria-labelledby="companyDropdown">
+                        <li><a class="dropdown-item" href="@Url.Action("Index", "Freight")">İlanlar</a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("FreightCreate", "Freight")">İlan Ver</a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("MyFreight", "Freight")">İlanlarım</a></li>                                          
+                    </ul>
+                </li>
+
+
+
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle position-relative d-flex align-items-center" href="#" id="offerNotificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span>Teklif / Bildirim</span>
+
+                        @if (unreadNotificationCount > 0)
+                        {
+                            <span class="position-absolute translate-middle badge rounded-pill bg-danger"
+                                  style="top: 30%; left: 100%; transform: translate(-30%, -50%); font-size: 0.65rem;">
+                                @unreadNotificationCount
+                                <span class="visually-hidden">Yeni bildiriminiz var</span>
+                            </span>
+                        }
+                    </a>
+
+                    <ul class="dropdown-menu border-0 shadow bsb-zoomIn" aria-labelledby="offerNotificationDropdown">
+                        <li><a class="dropdown-item" href="@Url.Action("Index", "Notification")">Bildirimler</a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("Offers", "Offer")">Teklifler</a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("Index", "UserNotificationPrefers")">Aktif Bildirim Sistemi</a></li>
+                    </ul>
+                </li>
+
+
+
+
+                @{
+                    var hasCompany = User.HasClaim("HasCompany", "true");
+                }
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="companyDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Şirket
+                    </a>
+                    <ul class="dropdown-menu border-0 shadow bsb-zoomIn" aria-labelledby="companyDropdown">
+                        @if (hasCompany)
+                        {
+                            <li><a class="dropdown-item" href="@Url.Action("CompanyProfile", "Company")">Şirketim</a></li>                        
+                            <li><a class="dropdown-item" href="@Url.Action("AddCompanyUser", "Company")">Üye Oluştur</a></li>
+                        }
+                        else
+                        {
+                            <li><a class="dropdown-item" href="@Url.Action("RegisterCompany", "Company")">Şirket Oluştur</a></li>
+                        }
+                    </ul>
+                </li>
+
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link" asp-controller="Account" asp-action="Profile">
+                        <i class="fas fa-user me-1"></i>Profilim
+                    </a>
+                </li>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item">
+                        <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="nav-link btn btn-link">
+                                <i class="fas fa-sign-out-alt me-1"></i>Çıkış Yap
+                            </button>
+                        </form>
+                    </li>
+                }
+            </ul>
+
+
+            </div>
+        </div>
+    </div>
+</nav>

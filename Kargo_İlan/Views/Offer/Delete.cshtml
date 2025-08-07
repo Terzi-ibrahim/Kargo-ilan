@@ -1,0 +1,93 @@
+﻿@using System.Security.Claims
+@model Kargo_İlan.DTOs.Offers.Offers
+
+@{
+    ViewData["Title"] = "Teklif Sil";
+    // Oturum açan kullanıcının ID'si
+    int currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+    bool isOfferOwner = Model.User_id == currentUserId;
+}
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="h4 mb-1">
+                <i class="bi bi-trash me-2 text-danger"></i>Teklif Sil
+            </h2>
+            <p class="text-muted small mb-0">Teklif #@Model.Offer_id silme işlemi</p>
+        </div>
+        <a asp-action="Offers" class="btn btn-light">
+            <i class="bi bi-arrow-left me-2"></i>Teklifler Listesine Dön
+        </a>
+    </div>
+
+    @if (!isOfferOwner)
+    {
+        <div class="alert alert-danger">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            Bu teklifi silme yetkiniz yok.
+        </div>
+    }
+    else
+    {
+        <!-- Uyarı Mesajı -->
+        <div class="alert alert-danger d-flex align-items-center mb-4">
+            <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
+            <div>
+                <strong>Dikkat!</strong> Bu teklifi silmek üzeresiniz. Bu işlem geri alınamaz.
+            </div>
+        </div>
+
+        <!-- Teklif Detayları -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-white py-3">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-info-circle me-2 text-primary"></i>Teklif Bilgileri
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="text-muted small">İlan Başlığı</label>
+                        <p class="mb-0 fw-medium">@Model.FreightTitle</p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="text-muted small">Teklif Fiyatı</label>
+                        <p class="mb-0 fw-medium text-success">@Model.Price.ToString("C")</p>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="text-muted small">Açıklama</label>
+                        <p class="mb-0 fw-medium">@Model.Description</p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="text-muted small">Teklif Veren</label>
+                        <p class="mb-0 fw-medium">@Model.Name @Model.SurName</p>
+                        <small class="text-muted">@Model.FullName</small>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="text-muted small">Oluşturulma Tarihi</label>
+                        <p class="mb-0 fw-medium">@Model.CreateAt.ToLocalTime().ToString("g")</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Silme Formu -->
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <form asp-action="Delete" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="Offer_id" />
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash me-2"></i>Teklifi Sil
+                        </button>
+                        <a asp-action="Offers" class="btn btn-light">
+                            <i class="bi bi-x-circle me-2"></i>İptal
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+</div>

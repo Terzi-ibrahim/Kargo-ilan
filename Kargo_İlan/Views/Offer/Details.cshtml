@@ -1,0 +1,205 @@
+﻿@using System.Security.Claims
+@model Kargo_İlan.DTOs.Offers.Offers
+@{
+    ViewData["Title"] = "Teklif Detayı";
+
+    // ClaimTypes.NameIdentifier ile oturum açan kullanıcının ID'sini alıyoruz
+    int currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+    bool isOfferOwner = Model.User_id == currentUserId;
+    bool isFreightOwner = Model.FreightOwnerId == currentUserId;
+
+    const int Pending = 1;
+    const int Confirmed = 2;
+    const int Rejected = 3;
+    const int Cancelled = 4;
+    const int Expired = 5;
+}
+
+<div class="container py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="h4 mb-1">
+                <i class="bi bi-info-circle me-2 text-primary"></i>Teklif Detayı
+            </h2>
+            <p class="text-muted small mb-0">Teklif #@Model.Offer_id detayları</p>
+        </div>
+        <a href="@ViewBag.ReturnUrl" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Geri Dön
+        </a>
+    </div>
+
+    <div class="row">
+        <!-- Teklif Bilgileri -->
+        <div class="col-lg-8 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white py-3">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-file-text me-2 text-primary"></i>Teklif Bilgileri
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row gx-3">
+                        <div class="col-md-6 mb-3">
+                            <label class="text-muted small">Teklif ID</label>
+                            <p class="fw-medium mb-0">#@Model.Offer_id</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="text-muted small">Fiyat</label>
+                            <p class="fw-medium text-success mb-0">@Model.Price ₺</p>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="text-muted small">Açıklama</label>
+                            <p class="fw-medium mb-0">@Model.Description</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="text-muted small">Oluşturulma Tarihi</label>
+                            <p class="fw-medium mb-0">@Model.CreateAt</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="text-muted small">Durum</label>
+                            <p class="mb-0">
+                                @switch (Model.StatusId)
+                                {
+                                    case Pending:
+                                        <span class="badge bg-warning text-dark">Beklemede</span>
+                                        ;
+                                        break;
+                                    case Confirmed:
+                                        <span class="badge bg-success">Onaylandı</span>
+                                        ;
+                                        break;
+                                    case Rejected:
+                                        <span class="badge bg-danger">Reddedildi</span>
+                                        ;
+                                        break;
+                                    case Cancelled:
+                                        <span class="badge bg-secondary">İptal Edildi</span>
+                                        ;
+                                        break;
+                                    case Expired:
+                                        <span class="badge bg-dark">Süresi Doldu</span>
+                                        ;
+                                        break;
+                                    default:
+                                        <span class="badge bg-light text-dark">—</span>
+                                        ;
+                                        break;
+                                }
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- İlan Bilgileri -->
+        <div class="col-lg-4 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white py-3">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-box-seam me-2 text-primary"></i>İlan Bilgileri
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="text-muted small">İlan ID</label>
+                        <p class="fw-medium mb-0">#@Model.Freight_id</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="text-muted small">İlan Başlığı</label>
+                        <p class="fw-medium mb-0">@Model.FreightTitle</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Duruma Göre Uyarı ve Butonlar -->
+    @switch (Model.StatusId)
+    {
+        case Pending:
+            if (isFreightOwner && !isOfferOwner)
+            {
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body d-flex gap-2">
+                        <form method="post" asp-action="ConfirmOffer" asp-controller="Offer">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="Offer_id" value="@Model.Offer_id" />
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-check-circle me-2"></i>Teklifi Onayla
+                            </button>
+                        </form>
+                        <form method="post" asp-action="RejectOffer" asp-controller="Offer">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="Offer_id" value="@Model.Offer_id" />
+                            <button type="submit" class="btn btn-outline-danger">
+                                <i class="bi bi-x-circle me-2"></i>Reddet
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            }
+            else if (isOfferOwner)
+            {
+                <div class="alert alert-warning d-flex align-items-center mb-4">
+                    <i class="bi bi-hourglass-split me-2 fs-5"></i>
+                    <div>İlan sahibi bu teklif için henüz işlem yapmadı. Beklemede.</div>
+                </div>
+            }
+            break;
+    }
+
+    @if (Model.StatusId == Confirmed)
+    {
+        if (isFreightOwner && !isOfferOwner)
+        {
+            <div class="alert alert-success d-flex align-items-center mb-4">
+                <i class="bi bi-check-circle-fill me-2 fs-5"></i>
+                <div><strong>Bu teklifi onayladınız.</strong></div>
+            </div>
+        }
+        else if (isOfferOwner && !isFreightOwner)
+        {
+            <div class="alert alert-success d-flex align-items-center mb-4">
+                <i class="bi bi-check-circle-fill me-2 fs-5"></i>
+                <div><strong>Onaylandı!</strong> Bu teklif ilan sahibi tarafından kabul edildi.</div>
+            </div>
+
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-white py-3">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-person me-2 text-primary"></i>İlan Sahibinin İletişim Bilgileri
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row gy-3">
+                        <div class="col-md-6">
+                            <label class="text-muted small">Ad Soyad</label>
+                            <p class="fw-medium mb-0">@Model.Name @Model.SurName</p>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-muted small">Kullanıcı Adı</label>
+                            <p class="fw-medium mb-0">@Model.FullName</p>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-muted small">Telefon</label>
+                            <p class="fw-medium mb-0">@Model.PhoneNumber</p>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-muted small">Email</label>
+                            <p class="fw-medium mb-0">@Model.Email</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else if (isFreightOwner && isOfferOwner)
+        {
+            <div class="alert alert-info d-flex align-items-center mb-4">
+                <i class="bi bi-exclamation-circle-fill me-2 fs-5"></i>
+                <div>Uyarı: Bu teklif kendi ilanınıza verilmiş.</div>
+            </div>
+        }
+    }
+</div>

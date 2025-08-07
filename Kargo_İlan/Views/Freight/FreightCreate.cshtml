@@ -1,0 +1,274 @@
+﻿@model Kargo_İlan.DTOs.Freight.FreightCreate
+
+<section class="create-listing-section py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <!-- Header -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h2 class="h4 mb-1">
+                            <i class="bi bi-plus-circle me-2 text-primary"></i>Yeni İlan Oluştur
+                        </h2>
+                        <p class="text-muted small mb-0">Kargo ilanınızı oluşturun</p>
+                    </div>
+                    <a href="@ViewBag.ReturnUrl" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left"></i> Geri Dön
+                    </a>
+                </div>
+
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <form asp-action="FreightCreate" asp-controller="Freight" method="post">
+                            @Html.AntiForgeryToken()
+
+
+                            <div asp-validation-summary="ModelOnly"
+                                 class="alert alert-danger alert-dismissible fade show rounded-3 shadow-sm"
+                                 role="alert"
+                                 style="font-size: 0.9rem;">
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Kapat"></button>
+                            </div>
+
+
+
+                            <!-- Başlık ve Açıklama -->
+                            <div class="mb-4">
+                                <h5 class="border-bottom pb-2 mb-3">
+                                    <i class="bi bi-pencil-square me-2 text-primary"></i>İlan Bilgileri
+                                </h5>
+                                <div class="row g-3">
+                                    <div class="col-md-12">
+                                        <label asp-for="Title" class="form-label fw-medium">Başlık</label>
+                                        <input asp-for="Title" class="form-control" placeholder="İlan başlığını girin" />
+                                        <span asp-validation-for="Title" class="text-danger small"></span>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <label asp-for="Description" class="form-label fw-medium">Açıklama</label>
+                                        <textarea asp-for="Description" class="form-control" rows="4"
+                                                  placeholder="İlan hakkında detaylı bilgi verin..."></textarea>
+                                        <span asp-validation-for="Description" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Kargo Detayları -->
+                            <div class="mb-4">
+                                <h5 class="border-bottom pb-2 mb-3">
+                                    <i class="bi bi-box-seam me-2 text-primary"></i>Kargo Detayları
+                                </h5>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label asp-for="Cargo_id" class="form-label fw-medium">Kargo Türü</label>
+                                        <select asp-for="Cargo_id" class="form-select" id="cargoTypeSelect"
+                                                asp-items="@(new SelectList(ViewBag.CargoTypes, "Cargo_id", "CargoName"))">
+                                            <option value="">Seçiniz</option>
+                                        </select>
+                                        <span asp-validation-for="Cargo_id" class="text-danger small"></span>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label asp-for="Miktar" class="form-label fw-medium" id="miktarLabel">Miktar</label>
+                                        <input asp-for="Miktar" class="form-control" id="miktarInput" placeholder="Miktar" />
+                                        <span asp-validation-for="Miktar" class="text-danger small"></span>
+                                    </div>
+
+                                
+
+
+                                    <div class="col-md-6">
+                                        <label asp-for="Category_id" class="form-label fw-medium">Kategori</label>
+                                        <select asp-for="Category_id" class="form-select"
+                                                asp-items="@(new SelectList(ViewBag.CategoryTypes, "Category_id", "CategoryName"))">
+                                            <option value="">Seçiniz</option>
+                                        </select>
+                                        <span asp-validation-for="Category_id" class="text-danger small"></span>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label asp-for="VehicleType_id" class="form-label fw-medium">Araç Türü</label>
+                                        <select asp-for="VehicleType_id" class="form-select"
+                                                asp-items="@(new SelectList(ViewBag.VehicleTypes, "VehicleType_id", "VehicleName"))">
+                                            <option value="">Seçiniz</option>
+                                        </select>
+                                        <span asp-validation-for="VehicleType_id" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Yükleme Adresi -->
+                            <div class="mb-4">
+                                <h5 class="border-bottom pb-2 mb-3">
+                                    <i class="bi bi-geo-alt me-2 text-primary"></i>Yükleme Adresi
+                                </h5>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label asp-for="YuklemeIlId" class="form-label fw-medium">İl</label>
+                                        <select asp-for="YuklemeIlId" id="loadingCity" class="form-select"
+                                                asp-items="ViewBag.Province">
+                                            <option value="">İl Seçin</option>
+                                        </select>
+                                        <span asp-validation-for="YuklemeIlId" class="text-danger small"></span>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label asp-for="YuklemeIlceId" class="form-label fw-medium">İlçe</label>
+                                        <select asp-for="YuklemeIlceId" id="loadingDistrict" class="form-select" disabled
+                                                data-selected-district-id="@Model.YuklemeIlceId">
+                                            <option value="">İlçe Seçin</option>
+                                        </select>
+                                        <span asp-validation-for="YuklemeIlceId" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Varış Adresi -->
+                            <div class="mb-4">
+                                <h5 class="border-bottom pb-2 mb-3">
+                                    <i class="bi bi-geo-alt-fill me-2 text-primary"></i>Varış Adresi
+                                </h5>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label asp-for="VarisIlId" class="form-label fw-medium">İl</label>
+                                        <select asp-for="VarisIlId" id="destinationCity" class="form-select"
+                                                asp-items="ViewBag.Province">
+                                            <option value="">İl Seçin</option>
+                                        </select>
+                                        <span asp-validation-for="VarisIlId" class="text-danger small"></span>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label asp-for="VarisIlceId" class="form-label fw-medium">İlçe</label>
+                                        <select asp-for="VarisIlceId" id="destinationDistrict" class="form-select" disabled
+                                                data-selected-district-id="@Model.VarisIlceId">
+                                            <option value="">İlçe Seçin</option>
+                                        </select>
+                                        <span asp-validation-for="VarisIlceId" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Butonlar -->
+                            <div class="d-flex gap-2 justify-content-end pt-3">
+                                <a href="@Url.Action("Index", "Home")" class="btn btn-light">
+                                    <i class="bi bi-x-circle me-2"></i>Vazgeç
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-check-circle me-2"></i>İlanı Yayınla
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script id="districts-data" type="application/json">
+        @Html.Raw(ViewBag.DistrictsJson)
+    </script>
+
+    <script src="~/js/Freight/Helpers/AdressHandler.js" asp-append-version="true"></script>
+    <script src="~/js/freight//Helpers/adresalphabetical.js" asp-append-version="true"></script>  
+    <script src="~/js/Freight/cargo-miktar.js"></script>
+    <script>
+        updateMiktarPlaceholderAndLabel("cargoTypeSelect", "miktarInput", "miktarLabel");
+    </script>
+                                    
+}
+
+@section Styles {
+    <style>
+        .create-listing-section {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        .card {
+            border-radius: 1rem;
+            transition: all 0.3s ease;
+        }
+
+            .card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+            }
+
+        .form-control, .form-select {
+            border-radius: 0.5rem;
+            border: 1px solid #dee2e6;
+            padding: 0.75rem 1rem;
+            transition: all 0.2s ease;
+        }
+
+            .form-control:focus, .form-select:focus {
+                border-color: #0d6efd;
+                box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+            }
+
+        .form-label {
+            color: #495057;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
+
+            .btn-primary:hover {
+                background-color: #0b5ed7;
+                border-color: #0a58ca;
+                transform: translateY(-1px);
+            }
+
+        .btn-light {
+            background-color: #f8f9fa;
+            border-color: #dee2e6;
+        }
+
+            .btn-light:hover {
+                background-color: #e9ecef;
+                border-color: #dee2e6;
+                transform: translateY(-1px);
+            }
+
+        .text-primary {
+            color: #0d6efd !important;
+        }
+
+        .border-bottom {
+            border-color: #e9ecef !important;
+        }
+
+        h5 {
+            color: #212529;
+            font-weight: 600;
+        }
+
+        .text-muted {
+            color: #6c757d !important;
+        }
+
+        .text-danger {
+            color: #dc3545 !important;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .bi {
+            font-size: 1.1em;
+        }
+    </style>
+}

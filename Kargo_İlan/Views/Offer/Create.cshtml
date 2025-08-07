@@ -1,0 +1,112 @@
+﻿@model Kargo_İlan.DTOs.Offers.Create
+
+<div class="container py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="h4 mb-1">
+                <i class="bi bi-plus-circle me-2 text-primary"></i>Yeni Teklif Oluştur
+            </h2>
+            <p class="text-muted small mb-0">İlan detaylarını inceleyip teklifinizi oluşturun</p>
+        </div>
+        <a asp-action="Offers" class="btn btn-light">
+            <i class="bi bi-arrow-left me-2"></i>Teklifler Listesine Dön
+        </a>
+    </div>
+
+    <div class="row">
+        <!-- İlan Detayları -->
+        <div class="col-lg-4 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white py-3">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-info-circle me-2 text-primary"></i>İlan Detayları
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="text-muted small">İlan Numarası</label>
+                        <p class="mb-0 fw-medium">#@ViewData["Freight_id"]</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="text-muted small">İlan Başlığı</label>
+                        <p class="mb-0 fw-medium">@ViewData["FreightTitle"]</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="text-muted small">Açıklama</label>
+                        <p class="mb-0 fw-medium">@ViewData["FreightDescription"]</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="text-muted small">Kategori</label>
+                        <p class="mb-0 fw-medium">@ViewData["FreightCategory"]</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="text-muted small">Araç Türü</label>
+                        <p class="mb-0 fw-medium">@ViewData["FreightVehicleType"]</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="text-muted small">Yükleme Noktası</label>
+                        <p class="mb-0 fw-medium">@ViewData["FreightLoadLocation"]</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="text-muted small">Varış Noktası</label>
+                        <p class="mb-0 fw-medium">@ViewData["FreightDestination"]</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Teklif Formu -->
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white py-3">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-pencil-square me-2 text-primary"></i>Teklif Bilgileri
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" method="post">
+                        <input type="hidden" asp-for="Freight_id" />
+                        <input type="hidden" id="ListingId" name="ListingId" value="@Model.Freight_id" />
+
+                        <div class="mb-4">
+                            <label class="form-label fw-medium" for="Price">
+                                <i class="bi bi-currency-dollar me-2"></i>Teklif Fiyatı
+                            </label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="Price" name="Price" required
+                                       placeholder="Teklif fiyatını giriniz" min="0" step="0.01" />
+
+                                <span class="input-group-text">₺</span>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-medium" for="Description">
+                                <i class="bi bi-chat-text me-2"></i>Teklif Açıklaması
+                            </label>
+                            <textarea class="form-control" id="Description" name="Description" required
+                                      rows="4" placeholder="Teklifiniz hakkında detaylı bilgi veriniz"></textarea>
+                        </div>
+
+                        <div class="alert alert-info d-flex align-items-center mb-4">
+                            <i class="bi bi-info-circle-fill me-2 fs-5"></i>
+                            <div>
+                                <small class="d-block">Her teklifin geçerlilik süresi varsayılan olarak 2 gün olarak belirlenmiştir.</small>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-circle me-2"></i>Teklif Ver
+                            </button>
+                            <a asp-action="Offers" class="btn btn-light">
+                                <i class="bi bi-x-circle me-2"></i>İptal
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

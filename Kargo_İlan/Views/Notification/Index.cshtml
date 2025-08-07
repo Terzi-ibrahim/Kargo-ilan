@@ -1,0 +1,82 @@
+﻿@model IEnumerable<Kargo_İlan.DTOs.Notification.NotificationDto>
+
+@{
+    ViewData["Title"] = "Bildirimler";
+}
+
+<div class="container py-4">
+
+    <div class="d-flex justify-content-center align-items-center mb-4 gap-3">
+        <h1 class="h3 mb-0 fw-bold">Bildirimler</h1>
+        <i class="bi bi-bell-fill fs-3 text-primary"></i>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            @if (!Model.Any())
+            {
+                <div class="d-flex flex-column justify-content-center align-items-center py-5 border rounded shadow-sm bg-light">
+                    <i class="bi bi-bell-slash text-muted mb-3" style="font-size: 4rem;"></i>
+                    <h4 class="text-muted mb-2">Henüz hiç bildiriminiz yok</h4>
+                    <p class="text-secondary fs-5 text-center mx-3 mb-4">
+                        Burası şu an çok ıssız... 🏝️ <br />
+                        Yeni bildirimler için ilan vermeye ne dersin?
+                    </p>
+                    <a href="@Url.Action("FreightCreate", "Freight", new { returnUrl = "Notification" })" class="btn btn-primary btn-lg px-4 shadow-sm">
+                        <i class="bi bi-plus-circle me-2"></i> Şimdi İlan Ver
+                    </a>
+
+                </div>
+            }
+
+            else
+            {
+                foreach (var notification in Model)
+                {
+                    var isRead = notification.IsRead;
+                    <div class="card mb-4 shadow-sm @(isRead ? "bg-light" : "bg-white")">
+                        <div class="card-body d-flex gap-3 align-items-start p-4">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center text-white @(isRead ? "bg-primary" : "bg-danger")" style="width: 48px; height: 48px;">
+                                <i class="bi bi-bell-fill fs-4"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <h5 class="mb-0 @(isRead ? "text-secondary" : "text-danger")">@((isRead) ? "Bildirim" : "Yeni Bildirim")</h5>
+                                    <small class="text-muted">@notification.CreatedDate.ToString("dd MMM yyyy HH:mm")</small>
+                                </div>
+                                <p class="mb-3 fs-6">@notification.Message</p>
+                                <div class="d-flex gap-2 flex-wrap">
+                                   @*  @if (notification.Type == "ilan")
+                                    {
+                                        <a href="@Url.Action("ViewNotification", "Notification", new { notificationId = notification.NotificationId })"
+                                           class="btn btn-outline-primary btn-sm flex-grow-1 flex-md-grow-0">
+                                            <i class="bi bi-eye me-1"></i> İlanı Görüntüle
+                                        </a>
+                                    }
+                                    else if (notification.Type == "teklif")
+                                    {
+                                        <a href="@Url.Action("ViewNotification", "Notification", new { notificationId = notification.NotificationId })"
+                                           class="btn btn-outline-success btn-sm flex-grow-1 flex-md-grow-0">
+                                            <i class="bi bi-eye me-1"></i> Teklifi Görüntüle
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted small align-self-center">İlgili kayıt yok</span>
+                                    }
+                                     *@
+                                    <form method="post" action="@Url.Action("Delete", "Notification", new { notificationId = notification.NotificationId })" class="d-inline ms-auto">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-outline-danger btn-sm">
+                                            <i class="bi bi-trash me-1"></i> Sil
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>

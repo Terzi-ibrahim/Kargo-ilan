@@ -1,0 +1,147 @@
+﻿@model Kargo_İlan.Models.Freight
+
+<div class="container py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="h4 mb-1">
+                <i class="bi bi-trash me-2 text-danger"></i>İlan Sil
+            </h2>
+            <p class="text-muted small mb-0">İlan #@Model.Freight_id silme işlemi</p>
+        </div>
+        <a asp-action="MyFreight" class="btn btn-light">
+            <i class="bi bi-arrow-left me-2"></i>İlanlar Listesine Dön
+        </a>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <!-- Uyarı Mesajı -->
+            <div class="alert alert-danger d-flex align-items-center mb-4">
+                <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
+                <div>
+                    <strong>Dikkat!</strong> Bu ilanı silmek üzeresiniz. Bu işlem geri alınamaz.
+                </div>
+            </div>
+
+            <!-- İlan Detayları -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-white py-3">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-info-circle me-2 text-primary"></i>İlan Bilgileri
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="text-muted small">İlan ID</label>
+                            <p class="mb-0 fw-medium">@Model.Freight_id</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="text-muted small">Başlık</label>
+                            <p class="mb-0 fw-medium">@Model.Title</p>
+                        </div>                      
+                        <div class="col-6 mb-3">
+                            <label class="text-muted small">Araç Türü</label>
+                            <p class="mb-0 fw-medium">@Model.Vehicle_Type.VehicleName</p>
+                        </div>
+                        @{
+                            var unit = Model.Cargo_id switch
+                            {
+                                10 or 20 => "kg",
+                                30 or 70 => "adet",
+                                40 or 50 or 60 => "litre",
+                                _ => ""
+                            };
+                        }
+                        <div class="col-6 mb-3">
+                            <label class="text-muted small">Miktar</label>
+                            <p class="mb-0 fw-medium">@Model.Miktar @unit</p>
+                        </div>
+
+                        <div class="col-6 mb-3">
+                            <label class="text-muted small">Kategori</label>
+                            <p class="mb-0 fw-medium">@Model.Category_Type.CategoryName</p>
+                        </div>
+                           <div class="col-6 mb-3">
+                            <label class="text-muted small">Cargo Türü</label>
+                            <p class="mb-0 fw-medium">@Model.Cargo_Type.CargoName</p>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="text-muted small">Açıklama</label>
+                            <p class="mb-0 fw-medium">@Model.Description</p>
+                        </div>
+                    </div>                 
+                </div>
+            </div>
+
+            <!-- Silme Formu -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <form asp-action="FreightDeleteConfirmed" method="post">
+                        <input type="hidden" name="id" value="@Model.Freight_id" />
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-trash me-2"></i>İlanı Sil
+                            </button>
+                            <a asp-action="MyFreight" class="btn btn-light">
+                                <i class="bi bi-x-circle me-2"></i>İptal
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .card {
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+            .card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+            }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+            .btn-danger:hover {
+                background-color: #bb2d3b;
+                border-color: #b02a37;
+                transform: translateY(-1px);
+            }
+
+        .btn-light {
+            background-color: #f8f9fa;
+            border-color: #dee2e6;
+        }
+
+            .btn-light:hover {
+                background-color: #e9ecef;
+                border-color: #dee2e6;
+                transform: translateY(-1px);
+            }
+
+        .bi {
+            font-size: 1.1em;
+        }
+
+        .alert {
+            border-radius: 0.5rem;
+        }
+    </style>
+}
